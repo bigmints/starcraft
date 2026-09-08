@@ -1309,3 +1309,244 @@ em {
 .demo-feedback {
   display: block;
 }
+
+/* Scroll as a deck: each chapter docks, then the next card slides over it. */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: #111a1df2;
+  backdrop-filter: blur(18px);
+}
+#top {
+  position: relative;
+  isolation: isolate;
+  padding-bottom: 24px;
+}
+.deck-card {
+  position: sticky;
+  top: var(--deck-top, 106px);
+  z-index: 1;
+  min-height: calc(100svh - 130px);
+  margin-bottom: 24px;
+  border-radius: 30px;
+  border: 1px solid #ffffff12;
+  box-shadow: 0 -16px 65px #0003;
+  transform: scale(var(--deck-scale, 1));
+  transform-origin: center top;
+  isolation: isolate;
+  scroll-margin-top: 110px;
+}
+.deck-card:after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: #0b1713;
+  opacity: var(--deck-shade, 0);
+  pointer-events: none;
+  z-index: 9;
+}
+.deck-card:nth-child(2) {
+  z-index: 2;
+}
+.deck-card:nth-child(3) {
+  z-index: 3;
+}
+.deck-card:nth-child(4) {
+  z-index: 4;
+}
+.deck-card:nth-child(5) {
+  z-index: 5;
+}
+.deck-card:nth-child(6) {
+  z-index: 6;
+}
+.hero.deck-card {
+  padding-top: 52px;
+  padding-bottom: 86px;
+  min-height: calc(100svh - 124px);
+}
+.hero.deck-card .hero-art {
+  margin-left: -12px;
+}
+.hero.deck-card .hero-art img {
+  width: 105%;
+}
+.process-deck {
+  background: #dce7dc;
+  color: #172c22;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 44px 5.2% 48px;
+}
+.process-deck .intro {
+  padding: 0;
+  gap: 22px 60px;
+  margin-bottom: 42px;
+}
+.process-deck .intro .eyebrow {
+  color: #527660;
+}
+.process-deck .intro h2 em {
+  color: #5b896c;
+}
+.process-deck .intro > p:last-child {
+  color: #607661;
+  font-size: 16px;
+  line-height: 1.75;
+}
+.process-deck .steps {
+  padding: 0;
+  background: transparent;
+  gap: 36px;
+}
+.process-deck .step + .step {
+  border-color: #b5c8b3;
+  padding-left: 36px;
+}
+.process-deck .step-number {
+  margin-bottom: 25px;
+}
+.process-deck .step h3 {
+  font-size: 27px;
+}
+.process-deck .step p {
+  color: #60735d;
+}
+.process-deck .step-bottom {
+  border-color: #b5c8b3;
+  margin-top: 22px;
+  padding-top: 20px;
+}
+.workspace-section.deck-card {
+  background: #182920;
+  padding: 46px 5.2% 32px;
+}
+.workspace-section .section-heading {
+  margin-bottom: 30px;
+}
+.workspace-section .section-heading h2 {
+  font-size: clamp(35px, 3.6vw, 52px);
+  margin-top: 20px;
+}
+.connections.deck-card {
+  padding-block: 75px;
+}
+.questions.deck-card {
+  background: #202e29;
+  align-content: center;
+  padding-block: 75px;
+}
+.closing.deck-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 0;
+}
+.site-footer {
+  position: relative;
+  z-index: 10;
+  background: #111a1d;
+}
+.motion-paused .deck-card {
+  transform: none;
+}
+@media (max-width: 1000px) {
+  .process-deck .intro {
+    gap: 22px 30px;
+  }
+  .process-deck .steps {
+    gap: 24px;
+  }
+  .process-deck .step + .step {
+    padding-left: 24px;
+  }
+  .process-deck .step h3 {
+    font-size: 23px;
+  }
+  .process-deck .step p {
+    font-size: 15px;
+  }
+}
+@media (max-width: 700px) {
+  .site-header {
+    height: 78px;
+    margin-inline: -12px;
+    padding-inline: 22px;
+  }
+  .deck-card {
+    border-radius: 24px;
+    margin-bottom: 18px;
+    min-height: calc(100svh - 106px);
+    scroll-margin-top: 88px;
+  }
+  .hero.deck-card {
+    padding-top: 38px;
+    min-height: calc(100svh - 102px);
+  }
+  .hero.deck-card .hero-art {
+    margin: 36px auto 0;
+    width: 90%;
+  }
+  .process-deck {
+    padding: 38px 26px;
+  }
+  .process-deck .intro {
+    grid-template-columns: 1fr;
+    margin-bottom: 34px;
+    gap: 20px;
+  }
+  .process-deck .intro h2 {
+    font-size: 37px;
+  }
+  .process-deck .steps {
+    gap: 27px;
+  }
+  .process-deck .step + .step {
+    padding: 25px 0 0;
+  }
+  .process-deck .step h3 {
+    font-size: 27px;
+  }
+  .process-deck .step p {
+    font-size: 16px;
+  }
+  .process-deck .step-number {
+    margin-bottom: 19px;
+  }
+  .workspace-section.deck-card {
+    padding: 37px 17px 25px;
+  }
+  .workspace-section .section-heading h2 {
+    font-size: 34px;
+  }
+  .workspace-section .section-heading > p {
+    font-size: 14px;
+  }
+  .connections.deck-card {
+    padding: 42px 26px;
+  }
+  .questions.deck-card {
+    padding: 45px 26px;
+  }
+  .closing.deck-card {
+    padding: 60px 20px;
+  }
+  .closing h2 {
+    font-size: clamp(41px, 10vw, 55px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .deck-card {
+    transform: none !important;
+  }
+  .deck-card:after {
+    opacity: 0 !important;
+  }
+  .site-header {
+    backdrop-filter: none;
+  }
+}

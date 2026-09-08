@@ -51,6 +51,59 @@ export default function StarcraftSite() {
       reduce.removeEventListener('change', sync);
     };
   }, []);
+  useEffect(() => {
+    const cards = Array.from(
+      document.querySelectorAll<HTMLElement>('.deck-card'),
+    );
+    const header = document.querySelector<HTMLElement>('.site-header');
+    let frame = 0;
+    const paint = () => {
+      frame = 0;
+      cards.forEach((card, index) => {
+        const next = cards[index + 1];
+        const dock = Number(card.dataset.dock ?? 0);
+        const distance = next
+          ? next.getBoundingClientRect().top - dock
+          : window.innerHeight;
+        const progress = paused
+          ? 0
+          : Math.max(
+              0,
+              Math.min(1, 1 - distance / (window.innerHeight * 0.85)),
+            );
+        card.style.setProperty('--deck-scale', String(1 - progress * 0.045));
+        card.style.setProperty('--deck-shade', String(progress * 0.16));
+      });
+    };
+    const schedule = () => {
+      if (!frame) frame = requestAnimationFrame(paint);
+    };
+    const measure = () => {
+      const headerHeight = header?.offsetHeight ?? 98;
+      cards.forEach((card, index) => {
+        // Taller panels scroll completely before docking, so no content is trapped.
+        const dock = Math.min(
+          headerHeight + 8 + index * 6,
+          window.innerHeight - card.offsetHeight - 20,
+        );
+        card.dataset.dock = String(dock);
+        card.style.setProperty('--deck-top', `${dock}px`);
+      });
+      schedule();
+    };
+    const resize = new ResizeObserver(measure);
+    cards.forEach((card) => resize.observe(card));
+    if (header) resize.observe(header);
+    window.addEventListener('scroll', schedule, { passive: true });
+    window.addEventListener('resize', measure);
+    measure();
+    return () => {
+      cancelAnimationFrame(frame);
+      resize.disconnect();
+      window.removeEventListener('scroll', schedule);
+      window.removeEventListener('resize', measure);
+    };
+  }, [paused]);
   return (
     <div className={paused ? 'site motion-paused' : 'site'}>
       <header className="site-header">
@@ -75,7 +128,7 @@ export default function StarcraftSite() {
         </a>
       </header>
       <main id="top">
-        <section className="hero paper">
+        <section className="hero paper deck-card">
           <div className="hero-copy">
             <p className="eyebrow">
               <span>A little spark. A whole new possibility.</span>
@@ -137,67 +190,69 @@ export default function StarcraftSite() {
             </Button>
           </div>
         </section>
-        <section id="how-it-works" className="intro">
-          <p className="eyebrow">From “what if” to right there.</p>
-          <h2>
-            <span>Your idea doesn’t need</span>
-            <br />
-            <em>another blank page.</em>
-          </h2>
-          <p>
-            It needs a place to take shape. A conversation to get going. A live
-            view to see what’s working. And the freedom to keep making it
-            better.
-          </p>
+        <section id="how-it-works" className="process-deck deck-card">
+          <div className="intro">
+            <p className="eyebrow">From “what if” to right there.</p>
+            <h2>
+              <span>Your idea doesn’t need</span>
+              <br />
+              <em>another blank page.</em>
+            </h2>
+            <p>
+              It needs a place to take shape. A conversation to get going. A
+              live view to see what’s working. And the freedom to keep making it
+              better.
+            </p>
+          </div>
+          <div className="steps" aria-label="How Starcraft works">
+            <div className="step reveal">
+              <div className="step-number">
+                <span>01</span>
+                <MessageCircle />
+              </div>
+              <h3>Say what you see.</h3>
+              <p>
+                A website, a fresh direction, a tiny change. Start with your own
+                words and a reference you love.
+              </p>
+              <div className="step-bottom">
+                <span>Start a conversation</span>
+                <ArrowUpRight />
+              </div>
+            </div>
+            <div className="step reveal">
+              <div className="step-number">
+                <span>02</span>
+                <MousePointer2 />
+              </div>
+              <h3>Point to the details.</h3>
+              <p>
+                See your work as it takes shape. Click the part you want to
+                change and leave a note right there.
+              </p>
+              <div className="step-bottom">
+                <span>Make it feel right</span>
+                <ArrowUpRight />
+              </div>
+            </div>
+            <div className="step reveal">
+              <div className="step-number">
+                <span>03</span>
+                <Layers />
+              </div>
+              <h3>Keep the good stuff.</h3>
+              <p>
+                Your conversation, references, and preview stay together. Pick
+                up the thread and keep creating.
+              </p>
+              <div className="step-bottom">
+                <span>Stay in your flow</span>
+                <ArrowUpRight />
+              </div>
+            </div>
+          </div>
         </section>
-        <section className="steps paper" aria-label="How Starcraft works">
-          <div className="step reveal">
-            <div className="step-number">
-              <span>01</span>
-              <MessageCircle />
-            </div>
-            <h3>Say what you see.</h3>
-            <p>
-              A website, a fresh direction, a tiny change. Start with your own
-              words and a reference you love.
-            </p>
-            <div className="step-bottom">
-              <span>Start a conversation</span>
-              <ArrowUpRight />
-            </div>
-          </div>
-          <div className="step reveal">
-            <div className="step-number">
-              <span>02</span>
-              <MousePointer2 />
-            </div>
-            <h3>Point to the details.</h3>
-            <p>
-              See your work as it takes shape. Click the part you want to change
-              and leave a note right there.
-            </p>
-            <div className="step-bottom">
-              <span>Make it feel right</span>
-              <ArrowUpRight />
-            </div>
-          </div>
-          <div className="step reveal">
-            <div className="step-number">
-              <span>03</span>
-              <Layers />
-            </div>
-            <h3>Keep the good stuff.</h3>
-            <p>
-              Your conversation, references, and preview stay together. Pick up
-              the thread and keep creating.
-            </p>
-            <div className="step-bottom">
-              <span>Stay in your flow</span>
-              <ArrowUpRight />
-            </div>
-          </div>
-        </section>
-        <section id="workspace" className="workspace-section">
+        <section id="workspace" className="workspace-section deck-card">
           <div className="section-heading reveal">
             <div>
               <p className="eyebrow">One space. Your whole process.</p>
@@ -352,7 +407,7 @@ export default function StarcraftSite() {
             </p>
           </div>
         </section>
-        <section className="connections paper">
+        <section className="connections paper deck-card">
           <div className="connection-copy reveal">
             <p className="eyebrow">Keep your world connected.</p>
             <h2>
@@ -408,7 +463,7 @@ export default function StarcraftSite() {
             </div>
           </div>
         </section>
-        <section id="questions" className="questions">
+        <section id="questions" className="questions deck-card">
           <div className="reveal">
             <p className="eyebrow">Good questions.</p>
             <h2>
@@ -469,7 +524,7 @@ export default function StarcraftSite() {
             </AccordionItem>
           </Accordion>
         </section>
-        <section className="closing paper">
+        <section className="closing paper deck-card">
           <div className="closing-mark" aria-hidden="true">
             <Asterisk />
           </div>
