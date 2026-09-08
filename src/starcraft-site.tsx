@@ -56,7 +56,7 @@ export default function StarcraftSite() {
       document.querySelectorAll<HTMLElement>('.deck-card'),
     );
     const anchors = Array.from(
-      document.querySelectorAll<HTMLElement>('.deck-anchor'),
+      document.querySelectorAll<HTMLElement>('.card-deck > .deck-anchor'),
     );
     let frame = 0;
     const paint = () => {
@@ -64,14 +64,15 @@ export default function StarcraftSite() {
       const scroll = window.scrollY;
       const metrics = cards.map((card, index) => ({
         anchor: anchors[index].getBoundingClientRect().top + scroll,
-        top: Number.parseFloat(getComputedStyle(card).top),
+        top: Number.parseFloat(
+          getComputedStyle(card).getPropertyValue('--deck-top'),
+        ),
       }));
       // Fikr's deck uses a stable document anchor for each card and cumulative
       // depth. A transformed/sticky card's rect cannot be its scroll anchor.
       let stackPosition = 0;
       for (let index = 0; index < cards.length - 1; index++) {
-        const start =
-          index === 0 ? 0 : metrics[index].anchor - metrics[index].top;
+        const start = metrics[index].anchor - metrics[index].top;
         const end = metrics[index + 1].anchor - metrics[index + 1].top;
         const progress = Math.max(
           0,
@@ -84,9 +85,11 @@ export default function StarcraftSite() {
         const depth = Math.max(0, stackPosition - index);
         card.style.setProperty('--deck-scale', String(1 - depth * 0.05));
         const body = card.firstElementChild as HTMLElement;
-        const scrollable = body.scrollHeight > body.clientHeight + 1;
-        if (scrollable) body.tabIndex = 0;
-        else body.removeAttribute('tabindex');
+        // Never create a nested scroll area. At unusually short viewports or
+        // enlarged text sizes, let an oversized chapter use normal page flow.
+        const available = window.innerHeight - metrics[index].top - 20;
+        const needsPageFlow = body.offsetHeight > available + 8;
+        card.toggleAttribute('data-page-flow', needsPageFlow);
       });
     };
     const schedule = () => {
@@ -127,10 +130,10 @@ export default function StarcraftSite() {
           <ArrowUpRight size={17} />
         </a>
       </header>
-      <main className="card-deck">
+      <main className="site-content">
         <div id="top" className="deck-anchor" aria-hidden="true" />
-        <section className="hero paper deck-card">
-          <div className="deck-body">
+        <section className="hero hero-canvas">
+          <div className="hero-body">
             <div className="hero-copy">
               <p className="eyebrow">
                 <span>A little spark. A whole new possibility.</span>
@@ -193,291 +196,295 @@ export default function StarcraftSite() {
             </div>
           </div>
         </section>
-        <div id="how-it-works" className="deck-anchor" aria-hidden="true" />
-        <section className="process-deck deck-card">
-          <div className="deck-body">
-            <div className="intro">
-              <p className="eyebrow">From “what if” to right there.</p>
-              <h2>
-                <span>Your idea doesn’t need</span>
-                <br />
-                <em>another blank page.</em>
-              </h2>
-              <p>
-                It needs a place to take shape. A conversation to get going. A
-                live view to see what’s working. And the freedom to keep making
-                it better.
-              </p>
-            </div>
-            <div className="steps" aria-label="How Starcraft works">
-              <div className="step reveal">
-                <div className="step-number">
-                  <span>01</span>
-                  <MessageCircle />
-                </div>
-                <h3>Say what you see.</h3>
-                <p>
-                  A website, a fresh direction, a tiny change. Start with your
-                  own words and a reference you love.
-                </p>
-                <div className="step-bottom">
-                  <span>Start a conversation</span>
-                  <ArrowUpRight />
-                </div>
-              </div>
-              <div className="step reveal">
-                <div className="step-number">
-                  <span>02</span>
-                  <MousePointer2 />
-                </div>
-                <h3>Point to the details.</h3>
-                <p>
-                  See your work as it takes shape. Click the part you want to
-                  change and leave a note right there.
-                </p>
-                <div className="step-bottom">
-                  <span>Make it feel right</span>
-                  <ArrowUpRight />
-                </div>
-              </div>
-              <div className="step reveal">
-                <div className="step-number">
-                  <span>03</span>
-                  <Layers />
-                </div>
-                <h3>Keep the good stuff.</h3>
-                <p>
-                  Your conversation, references, and preview stay together. Pick
-                  up the thread and keep creating.
-                </p>
-                <div className="step-bottom">
-                  <span>Stay in your flow</span>
-                  <ArrowUpRight />
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-        <div id="workspace" className="deck-anchor" aria-hidden="true" />
-        <section className="workspace-section deck-card">
-          <div className="deck-body">
-            <div className="section-heading reveal">
-              <div>
-                <p className="eyebrow">One space. Your whole process.</p>
+        <div className="card-deck">
+          <div id="how-it-works" className="deck-anchor" aria-hidden="true" />
+          <section className="process-deck deck-card">
+            <div className="deck-body">
+              <div className="intro">
+                <p className="eyebrow">From “what if” to right there.</p>
                 <h2>
-                  <span>A little less back and forth.</span>
+                  <span>Your idea doesn’t need</span>
                   <br />
-                  <em>A lot more “that’s it.”</em>
+                  <em>another blank page.</em>
                 </h2>
+                <p>
+                  It needs a place to take shape. A conversation to get going. A
+                  live view to see what’s working. And the freedom to keep
+                  making it better.
+                </p>
               </div>
-              <p>
-                A conversation on one side.
-                <br />
-                Your idea coming to life on the other.
-                <br />
-                Try a small change below.
-              </p>
-            </div>
-            <div className="workspace-demo reveal">
-              <div className="window-bar">
-                <div className="window-dots" aria-hidden="true">
-                  <i />
-                  <i />
-                  <i />
-                </div>
-                <p>Sunday Studio</p>
-                <span className="demo-label">Interactive example</span>
-              </div>
-              <div className="demo-body">
-                <div className="conversation">
-                  <div className="conversation-title">
-                    <Asterisk size={20} />
-                    <span>Let’s make something.</span>
+              <div className="steps" aria-label="How Starcraft works">
+                <div className="step reveal">
+                  <div className="step-number">
+                    <span>01</span>
+                    <MessageCircle />
                   </div>
-                  <div className="user-message">
-                    <p>
-                      A quiet little website for my pottery studio. Warm,
-                      simple, and a bit playful.
-                    </p>
-                  </div>
-                  <div className="assistant-message">
-                    <Asterisk size={18} />
-                    <p>
-                      A little space for things made slowly. Let’s give it some
-                      room to breathe.
-                    </p>
-                  </div>
-                  <div className="example-reference">
-                    <Layers size={20} />
-                    <div>
-                      <p>Sunday Studio</p>
-                      <span>First look</span>
-                    </div>
-                    <Check size={16} />
-                  </div>
-                  <div className="demo-instruction">
-                    <CornerDownRight size={19} />
-                    <p>Make a small change.</p>
-                  </div>
-                  <Button
-                    variant="outline"
-                    className="change-button"
-                    onClick={() => setRefined(!refined)}
-                    aria-pressed={refined}
-                  >
-                    {refined ? <Check /> : <MousePointer2 />}
-                    {refined ? (
-                      <span>Undo the change</span>
-                    ) : (
-                      <span>Make it a little warmer</span>
-                    )}
+                  <h3>Say what you see.</h3>
+                  <p>
+                    A website, a fresh direction, a tiny change. Start with your
+                    own words and a reference you love.
+                  </p>
+                  <div className="step-bottom">
+                    <span>Start a conversation</span>
                     <ArrowUpRight />
-                  </Button>
-                  <output className="demo-feedback">
-                    {refined ? (
-                      <span>A warmer palette. A little more personality.</span>
-                    ) : (
-                      <span>Your ideas. A little room to play.</span>
-                    )}
-                  </output>
-                </div>
-                <div className="preview-column">
-                  <div className="preview-toolbar">
-                    <span>Live preview</span>
-                    <div>
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        aria-label="Show desktop preview"
-                        aria-pressed={!mobile}
-                        onClick={() => setMobile(false)}
-                      >
-                        <Monitor />
-                      </Button>
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        aria-label="Show phone preview"
-                        aria-pressed={mobile}
-                        onClick={() => setMobile(true)}
-                      >
-                        <Smartphone />
-                      </Button>
-                    </div>
                   </div>
-                  <div
-                    className={
-                      'example-site ' +
-                      (refined ? 'warmer ' : '') +
-                      (mobile ? 'phone-preview' : '')
-                    }
-                  >
-                    <div className="example-nav">
-                      <span>sunday.</span>
-                      <span>Made by hand, in good time.</span>
+                </div>
+                <div className="step reveal">
+                  <div className="step-number">
+                    <span>02</span>
+                    <MousePointer2 />
+                  </div>
+                  <h3>Point to the details.</h3>
+                  <p>
+                    See your work as it takes shape. Click the part you want to
+                    change and leave a note right there.
+                  </p>
+                  <div className="step-bottom">
+                    <span>Make it feel right</span>
+                    <ArrowUpRight />
+                  </div>
+                </div>
+                <div className="step reveal">
+                  <div className="step-number">
+                    <span>03</span>
+                    <Layers />
+                  </div>
+                  <h3>Keep the good stuff.</h3>
+                  <p>
+                    Your conversation, references, and preview stay together.
+                    Pick up the thread and keep creating.
+                  </p>
+                  <div className="step-bottom">
+                    <span>Stay in your flow</span>
+                    <ArrowUpRight />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+          <div id="workspace" className="deck-anchor" aria-hidden="true" />
+          <section className="workspace-section deck-card">
+            <div className="deck-body">
+              <div className="section-heading reveal">
+                <div>
+                  <p className="eyebrow">One space. Your whole process.</p>
+                  <h2>
+                    <span>A little less back and forth.</span>
+                    <br />
+                    <em>A lot more “that’s it.”</em>
+                  </h2>
+                </div>
+                <p>
+                  A conversation on one side.
+                  <br />
+                  Your idea coming to life on the other.
+                  <br />
+                  Try a small change below.
+                </p>
+              </div>
+              <div className="workspace-demo reveal">
+                <div className="window-bar">
+                  <div className="window-dots" aria-hidden="true">
+                    <i />
+                    <i />
+                    <i />
+                  </div>
+                  <p>Sunday Studio</p>
+                  <span className="demo-label">Interactive example</span>
+                </div>
+                <div className="demo-body">
+                  <div className="conversation">
+                    <div className="conversation-title">
+                      <Asterisk size={20} />
+                      <span>Let’s make something.</span>
                     </div>
-                    <div className="example-content">
-                      <p className="example-eyebrow">
-                        Clay. Care. A little curiosity.
-                      </p>
-                      <h3>
-                        <span>Good things.</span>
-                        <br />
-                        <em>Made slowly.</em>
-                      </h3>
+                    <div className="user-message">
                       <p>
-                        Everyday pieces, with a little
-                        <br />
-                        something of their own.
+                        A quiet little website for my pottery studio. Warm,
+                        simple, and a bit playful.
                       </p>
-                      <div className="example-color-study" aria-hidden="true">
-                        <span />
-                        <span />
-                        <span />
-                        <span />
-                        <span />
-                        <span />
+                    </div>
+                    <div className="assistant-message">
+                      <Asterisk size={18} />
+                      <p>
+                        A little space for things made slowly. Let’s give it
+                        some room to breathe.
+                      </p>
+                    </div>
+                    <div className="example-reference">
+                      <Layers size={20} />
+                      <div>
+                        <p>Sunday Studio</p>
+                        <span>First look</span>
                       </div>
-                      <div className="example-bottom">
-                        <span>A small studio. An open mind.</span>
-                        <MoveUpRight size={26} />
+                      <Check size={16} />
+                    </div>
+                    <div className="demo-instruction">
+                      <CornerDownRight size={19} />
+                      <p>Make a small change.</p>
+                    </div>
+                    <Button
+                      variant="outline"
+                      className="change-button"
+                      onClick={() => setRefined(!refined)}
+                      aria-pressed={refined}
+                    >
+                      {refined ? <Check /> : <MousePointer2 />}
+                      {refined ? (
+                        <span>Undo the change</span>
+                      ) : (
+                        <span>Make it a little warmer</span>
+                      )}
+                      <ArrowUpRight />
+                    </Button>
+                    <output className="demo-feedback">
+                      {refined ? (
+                        <span>
+                          A warmer palette. A little more personality.
+                        </span>
+                      ) : (
+                        <span>Your ideas. A little room to play.</span>
+                      )}
+                    </output>
+                  </div>
+                  <div className="preview-column">
+                    <div className="preview-toolbar">
+                      <span>Live preview</span>
+                      <div>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          aria-label="Show desktop preview"
+                          aria-pressed={!mobile}
+                          onClick={() => setMobile(false)}
+                        >
+                          <Monitor />
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          aria-label="Show phone preview"
+                          aria-pressed={mobile}
+                          onClick={() => setMobile(true)}
+                        >
+                          <Smartphone />
+                        </Button>
+                      </div>
+                    </div>
+                    <div
+                      className={
+                        'example-site ' +
+                        (refined ? 'warmer ' : '') +
+                        (mobile ? 'phone-preview' : '')
+                      }
+                    >
+                      <div className="example-nav">
+                        <span>sunday.</span>
+                        <span>Made by hand, in good time.</span>
+                      </div>
+                      <div className="example-content">
+                        <p className="example-eyebrow">
+                          Clay. Care. A little curiosity.
+                        </p>
+                        <h3>
+                          <span>Good things.</span>
+                          <br />
+                          <em>Made slowly.</em>
+                        </h3>
+                        <p>
+                          Everyday pieces, with a little
+                          <br />
+                          something of their own.
+                        </p>
+                        <div className="example-color-study" aria-hidden="true">
+                          <span />
+                          <span />
+                          <span />
+                          <span />
+                          <span />
+                          <span />
+                        </div>
+                        <div className="example-bottom">
+                          <span>A small studio. An open mind.</span>
+                          <MoveUpRight size={26} />
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
+              <div className="workspace-caption">
+                <p>This is a hands-on example of the creative flow.</p>
+                <p>
+                  <span className="status-dot" />
+                  <span>Small changes. Big difference.</span>
+                </p>
+              </div>
             </div>
-            <div className="workspace-caption">
-              <p>This is a hands-on example of the creative flow.</p>
-              <p>
-                <span className="status-dot" />
-                <span>Small changes. Big difference.</span>
-              </p>
-            </div>
-          </div>
-        </section>
-        <div id="connections" className="deck-anchor" aria-hidden="true" />
-        <section className="connections paper deck-card">
-          <div className="deck-body">
-            <div className="connection-copy reveal">
-              <p className="eyebrow">Keep your world connected.</p>
-              <h2>
-                <span>Bring your ideas.</span>
-                <br />
-                <em>And your favourite tools.</em>
-              </h2>
-              <p>
-                Start fresh or open a project you’re already working on. Bring
-                in a Figma reference, add a screenshot, and keep the things that
-                matter close.
-              </p>
-              <a href="#questions" className="text-link">
-                <span>A few things worth knowing</span>
-                <ArrowDown size={17} />
-              </a>
-            </div>
-            <div
-              className="connection-diagram reveal"
-              aria-label="Your projects, Figma references and visual feedback connected in Starcraft"
-            >
-              <svg
-                className="connection-lines"
-                viewBox="0 0 500 350"
-                fill="none"
-                aria-hidden="true"
+          </section>
+          <div id="connections" className="deck-anchor" aria-hidden="true" />
+          <section className="connections paper deck-card">
+            <div className="deck-body">
+              <div className="connection-copy reveal">
+                <p className="eyebrow">Keep your world connected.</p>
+                <h2>
+                  <span>Bring your ideas.</span>
+                  <br />
+                  <em>And your favourite tools.</em>
+                </h2>
+                <p>
+                  Start fresh or open a project you’re already working on. Bring
+                  in a Figma reference, add a screenshot, and keep the things
+                  that matter close.
+                </p>
+                <a href="#questions" className="text-link">
+                  <span>A few things worth knowing</span>
+                  <ArrowDown size={17} />
+                </a>
+              </div>
+              <div
+                className="connection-diagram reveal"
+                aria-label="Your projects, Figma references and visual feedback connected in Starcraft"
               >
-                <path d="M85 75C260 75 155 175 250 175S300 60 410 65M80 280C210 280 135 175 250 175S320 280 425 280" />
-                <path
-                  className="line-travel"
-                  d="M85 75C260 75 155 175 250 175S300 60 410 65M80 280C210 280 135 175 250 175S320 280 425 280"
-                />
-              </svg>
-              <div className="connection-node node-project">
-                <FolderOpen />
-                <span>Your projects</span>
-              </div>
-              <div className="connection-node node-figma">
-                <PenTool />
-                <span>Figma</span>
-              </div>
-              <div className="connection-node node-notes">
-                <MessageCircle />
-                <span>Your feedback</span>
-              </div>
-              <div className="connection-node node-ideas">
-                <Layers />
-                <span>Your references</span>
-              </div>
-              <div className="connection-center">
-                <Asterisk />
-                <span>starcraft</span>
+                <svg
+                  className="connection-lines"
+                  viewBox="0 0 500 350"
+                  fill="none"
+                  aria-hidden="true"
+                >
+                  <path d="M85 75C260 75 155 175 250 175S300 60 410 65M80 280C210 280 135 175 250 175S320 280 425 280" />
+                  <path
+                    className="line-travel"
+                    d="M85 75C260 75 155 175 250 175S300 60 410 65M80 280C210 280 135 175 250 175S320 280 425 280"
+                  />
+                </svg>
+                <div className="connection-node node-project">
+                  <FolderOpen />
+                  <span>Your projects</span>
+                </div>
+                <div className="connection-node node-figma">
+                  <PenTool />
+                  <span>Figma</span>
+                </div>
+                <div className="connection-node node-notes">
+                  <MessageCircle />
+                  <span>Your feedback</span>
+                </div>
+                <div className="connection-node node-ideas">
+                  <Layers />
+                  <span>Your references</span>
+                </div>
+                <div className="connection-center">
+                  <Asterisk />
+                  <span>starcraft</span>
+                </div>
               </div>
             </div>
-          </div>
-        </section>
-        <div id="questions" className="deck-anchor" aria-hidden="true" />
-        <section className="questions deck-card">
-          <div className="deck-body">
+          </section>
+        </div>
+        <div id="questions" className="canvas-anchor" aria-hidden="true" />
+        <section className="questions questions-canvas">
+          <div className="questions-body">
             <div className="reveal">
               <p className="eyebrow">Good questions.</p>
               <h2>
@@ -539,28 +546,27 @@ export default function StarcraftSite() {
             </Accordion>
           </div>
         </section>
-        <div id="start" className="deck-anchor" aria-hidden="true" />
-        <section className="closing paper deck-card">
-          <div className="deck-body">
-            <div className="closing-mark" aria-hidden="true">
-              <Asterisk />
-            </div>
-            <p className="eyebrow">Leave a little room for possibility.</p>
-            <h2>
-              <span>It’s a good day</span>
-              <br />
-              <em>to make something.</em>
-            </h2>
-            <a className="pill dark" href="#workspace">
-              <span>Explore the workspace</span>
-              <ArrowUpRight size={19} />
-            </a>
-            <span className="closing-note">
-              Start with a thought. See where it goes.
-            </span>
-          </div>
-        </section>
       </main>
+      <section id="start" className="closing canvas-outro">
+        <div className="canvas-body">
+          <div className="closing-mark" aria-hidden="true">
+            <Asterisk />
+          </div>
+          <p className="eyebrow">Leave a little room for possibility.</p>
+          <h2>
+            <span>It’s a good day</span>
+            <br />
+            <em>to make something.</em>
+          </h2>
+          <a className="pill dark" href="#workspace">
+            <span>Explore the workspace</span>
+            <ArrowUpRight size={19} />
+          </a>
+          <span className="closing-note">
+            Start with a thought. See where it goes.
+          </span>
+        </div>
+      </section>
       <footer className="site-footer">
         <div className="footer-top">
           <a href="#top" className="brand">
