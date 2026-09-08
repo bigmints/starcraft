@@ -1310,7 +1310,7 @@ em {
   display: block;
 }
 
-/* Scroll as a deck: each chapter docks, then the next card slides over it. */
+/* Fixed stepped offsets and cumulative scaling adapted from Fikr.one. */
 .site-header {
   position: sticky;
   top: 0;
@@ -1318,54 +1318,89 @@ em {
   background: #111a1df2;
   backdrop-filter: blur(18px);
 }
-#top {
+.card-deck {
   position: relative;
   isolation: isolate;
-  padding-bottom: 24px;
+  padding: 0 0 96px;
+}
+.deck-anchor {
+  height: 0;
+  scroll-margin-top: var(--deck-top, 76px);
 }
 .deck-card {
+  --deck-top: 76px;
   position: sticky;
-  top: var(--deck-top, 106px);
+  top: var(--deck-top);
   z-index: 1;
-  min-height: calc(100svh - 130px);
-  margin-bottom: 24px;
-  border-radius: 30px;
+  height: 100svh;
+  min-height: 620px;
+  margin: 0 auto;
+  padding: 0 !important;
+  overflow: clip;
+  border-radius: clamp(24px, 2.5vw, 40px);
   border: 1px solid #ffffff12;
-  box-shadow: 0 -16px 65px #0003;
+  box-shadow: 0 -12px 38px #111a1d20;
   transform: scale(var(--deck-scale, 1));
-  transform-origin: center top;
+  transform-origin: top center;
+  backface-visibility: hidden;
   isolation: isolate;
-  scroll-margin-top: 110px;
+  align-content: start;
 }
-.deck-card:after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  background: #0b1713;
-  opacity: var(--deck-shade, 0);
-  pointer-events: none;
-  z-index: 9;
+.deck-body {
+  grid-column: 1 / -1;
+  width: 100%;
+  height: calc(100svh - var(--deck-top) - 20px);
+  min-height: 280px;
+  overflow-y: auto;
+  overflow-x: clip;
+  scrollbar-width: thin;
+  scrollbar-color: #73857b55 transparent;
+  display: inherit;
+  grid-template-columns: inherit;
+  flex-direction: inherit;
+  align-items: center;
+  justify-content: inherit;
+  align-content: center;
+  gap: inherit;
+  padding: 64px 5.2% 40px;
 }
-.deck-card:nth-child(2) {
+.deck-body:focus-visible {
+  outline: 2px solid #679685;
+  outline-offset: -5px;
+}
+.deck-card:nth-of-type(1),
+.deck-anchor:nth-of-type(1) {
+  --deck-top: 76px;
+  z-index: 1;
+}
+.deck-card:nth-of-type(2),
+.deck-anchor:nth-of-type(2) {
+  --deck-top: 96px;
   z-index: 2;
 }
-.deck-card:nth-child(3) {
+.deck-card:nth-of-type(3),
+.deck-anchor:nth-of-type(3) {
+  --deck-top: 116px;
   z-index: 3;
 }
-.deck-card:nth-child(4) {
+.deck-card:nth-of-type(4),
+.deck-anchor:nth-of-type(4) {
+  --deck-top: 136px;
   z-index: 4;
 }
-.deck-card:nth-child(5) {
+.deck-card:nth-of-type(5),
+.deck-anchor:nth-of-type(5) {
+  --deck-top: 156px;
   z-index: 5;
 }
-.deck-card:nth-child(6) {
+.deck-card:nth-of-type(6),
+.deck-anchor:nth-of-type(6) {
+  --deck-top: 176px;
   z-index: 6;
 }
 .hero.deck-card {
   padding-top: 52px;
   padding-bottom: 86px;
-  min-height: calc(100svh - 124px);
 }
 .hero.deck-card .hero-art {
   margin-left: -12px;
@@ -1451,9 +1486,7 @@ em {
   z-index: 10;
   background: #111a1d;
 }
-.motion-paused .deck-card {
-  transform: none;
-}
+
 @media (max-width: 1000px) {
   .process-deck .intro {
     gap: 22px 30px;
@@ -1479,13 +1512,12 @@ em {
   }
   .deck-card {
     border-radius: 24px;
-    margin-bottom: 18px;
-    min-height: calc(100svh - 106px);
+    margin-bottom: 0;
+
     scroll-margin-top: 88px;
   }
   .hero.deck-card {
     padding-top: 38px;
-    min-height: calc(100svh - 102px);
   }
   .hero.deck-card .hero-art {
     margin: 36px auto 0;
@@ -1540,13 +1572,188 @@ em {
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  .deck-card {
-    transform: none !important;
-  }
-  .deck-card:after {
-    opacity: 0 !important;
-  }
   .site-header {
     backdrop-filter: none;
+  }
+}
+
+/* Keep the leading edges empty and the header above the complete stack. */
+.site-header {
+  height: 76px;
+  background: #111a1d;
+  backdrop-filter: none;
+}
+.hero.deck-card .deck-body {
+  align-content: start;
+  padding-top: 48px;
+  position: relative;
+  gap: 0;
+}
+.hero.deck-card h1 {
+  font-size: clamp(60px, 6.4vw, 98px);
+}
+.hero.deck-card .hero-art {
+  align-self: center;
+  margin-left: 0;
+}
+.hero.deck-card .hero-art img {
+  width: 100%;
+  max-height: 520px;
+  object-fit: contain;
+}
+.hero-bottom {
+  position: relative;
+  left: auto;
+  right: auto;
+  bottom: auto;
+  grid-column: 1/-1;
+  margin-top: 24px;
+}
+.hero.deck-card .hero-description {
+  font-size: 16px;
+}
+.process-deck .deck-body {
+  align-items: stretch;
+  justify-content: safe center;
+}
+.workspace-section.deck-card .deck-body {
+  display: block;
+  padding-top: 46px;
+}
+.connections.deck-card .deck-body,
+.questions.deck-card .deck-body {
+  padding-inline: 7%;
+  align-content: safe center;
+}
+.closing.deck-card .deck-body {
+  justify-content: safe center;
+}
+.deck-body {
+  align-content: safe center;
+}
+@media (max-width: 820px) {
+  .site-header {
+    height: 70px;
+  }
+  .deck-card {
+    min-height: 560px;
+  }
+  .deck-card:nth-of-type(1),
+  .deck-anchor:nth-of-type(1) {
+    --deck-top: 70px;
+  }
+  .deck-card:nth-of-type(2),
+  .deck-anchor:nth-of-type(2) {
+    --deck-top: 84px;
+  }
+  .deck-card:nth-of-type(3),
+  .deck-anchor:nth-of-type(3) {
+    --deck-top: 98px;
+  }
+  .deck-card:nth-of-type(4),
+  .deck-anchor:nth-of-type(4) {
+    --deck-top: 112px;
+  }
+  .deck-card:nth-of-type(5),
+  .deck-anchor:nth-of-type(5) {
+    --deck-top: 126px;
+  }
+  .deck-card:nth-of-type(6),
+  .deck-anchor:nth-of-type(6) {
+    --deck-top: 140px;
+  }
+  .deck-body {
+    padding: 40px 26px 28px;
+    gap: 24px;
+  }
+  .hero.deck-card .deck-body {
+    padding-top: 38px;
+  }
+  .hero.deck-card h1 {
+    font-size: clamp(60px, 12vw, 82px);
+  }
+  .workspace-section.deck-card .deck-body {
+    padding: 37px 17px 25px;
+  }
+  .connections.deck-card .deck-body,
+  .questions.deck-card .deck-body {
+    padding: 42px 26px;
+  }
+  .closing.deck-card .deck-body {
+    padding: 45px 20px;
+    gap: 0;
+  }
+}
+@media (max-width: 560px) {
+  .site-header {
+    height: 66px;
+  }
+  .deck-card {
+    min-height: 520px;
+  }
+  .deck-card:nth-of-type(1),
+  .deck-anchor:nth-of-type(1) {
+    --deck-top: 66px;
+  }
+  .deck-card:nth-of-type(2),
+  .deck-anchor:nth-of-type(2) {
+    --deck-top: 76px;
+  }
+  .deck-card:nth-of-type(3),
+  .deck-anchor:nth-of-type(3) {
+    --deck-top: 86px;
+  }
+  .deck-card:nth-of-type(4),
+  .deck-anchor:nth-of-type(4) {
+    --deck-top: 96px;
+  }
+  .deck-card:nth-of-type(5),
+  .deck-anchor:nth-of-type(5) {
+    --deck-top: 106px;
+  }
+  .deck-card:nth-of-type(6),
+  .deck-anchor:nth-of-type(6) {
+    --deck-top: 116px;
+  }
+}
+/* Anchor offsets are applied once; the shell must not center its scrollport. */
+html:has(.card-deck) {
+  scroll-padding-top: 0;
+}
+.card-deck > .deck-card {
+  display: block;
+}
+.deck-body {
+  display: grid;
+}
+.process-deck > .deck-body {
+  display: flex;
+  flex-direction: column;
+}
+.closing.deck-card > .deck-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.card-deck > .deck-card {
+  align-content: start;
+}
+.card-deck {
+  padding-bottom: max(240px, calc(100svh - 176px));
+}
+/* A fixed empty rim stays clean even after a long card body was scrolled. */
+.deck-card::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto;
+  height: 42px;
+  background: inherit;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 10;
+}
+@media (max-width: 560px) {
+  .deck-card::before {
+    height: 24px;
   }
 }

@@ -8,4 +8,4 @@ All authored visible copy is in `src/starcraft-site.tsx`. Shared theme and motio
 
 The original ink illustration was generated for this site. Hosting registration is in `.openai/hosting.json`.
 
-The page uses a stacked scroll deck. Chapters dock with CSS sticky positioning; taller chapters finish scrolling before docking. A ResizeObserver recalculates docking after responsive changes and FAQ expansion. Scroll-linked scaling and shading pause with the Motion control and respect reduced motion.
+The page uses the Fikr.one stacked-card approach: stable document anchors, fixed stepped sticky offsets, and cumulative 5% scaling per layer. Long content scrolls inside each pinned card, with an empty rim protecting the exposed edge. Responsive offsets are 20px on desktop, 14px on tablets, and 10px on phones. The final card has enough scroll space to remain pinned. The Motion control and reduced-motion preference pause the decorative animations; deck geometry remains stable.
