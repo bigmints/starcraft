@@ -8,4 +8,4 @@ All authored visible copy is in `src/starcraft-site.tsx`. Shared theme and motio
 
 The original ink illustration was generated for this site. Hosting registration is in `.openai/hosting.json`.
 
-The opening hero sits on the dark canvas, followed by three Fikr.one-style stacked cards (how it works, workspace, connected tools). FAQ and closing sections return to the canvas. Stable document anchors, fixed stepped sticky offsets, and cumulative 5% scaling keep clean rims visible. Responsive offsets are 20px on desktop, 14px on tablets, and 10px on phones. Only the document scrolls: card content has natural height, with compact responsive layouts and normal page flow if enlarged text or a short viewport cannot fit a chapter. Motion controls pause decorative animations while deck geometry remains stable.
+Every chapter now flows naturally down the page. The opening, how it works, workspace example, connected tools, FAQ, and closing have content-driven heights. There are no stacked cards, sticky chapter positions, scroll-based scaling, viewport-sized frames, or internal slide scrollbars. The existing illustration, decorative motion, and interactive example remain.

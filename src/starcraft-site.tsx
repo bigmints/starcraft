@@ -51,62 +51,6 @@ export default function StarcraftSite() {
       reduce.removeEventListener('change', sync);
     };
   }, []);
-  useEffect(() => {
-    const cards = Array.from(
-      document.querySelectorAll<HTMLElement>('.deck-card'),
-    );
-    const anchors = Array.from(
-      document.querySelectorAll<HTMLElement>('.card-deck > .deck-anchor'),
-    );
-    let frame = 0;
-    const paint = () => {
-      frame = 0;
-      const scroll = window.scrollY;
-      const metrics = cards.map((card, index) => ({
-        anchor: anchors[index].getBoundingClientRect().top + scroll,
-        top: Number.parseFloat(
-          getComputedStyle(card).getPropertyValue('--deck-top'),
-        ),
-      }));
-      // Fikr's deck uses a stable document anchor for each card and cumulative
-      // depth. A transformed/sticky card's rect cannot be its scroll anchor.
-      let stackPosition = 0;
-      for (let index = 0; index < cards.length - 1; index++) {
-        const start = metrics[index].anchor - metrics[index].top;
-        const end = metrics[index + 1].anchor - metrics[index + 1].top;
-        const progress = Math.max(
-          0,
-          Math.min(1, (scroll - start) / Math.max(1, end - start)),
-        );
-        stackPosition = index + progress * progress * (3 - 2 * progress);
-        if (progress < 1) break;
-      }
-      cards.forEach((card, index) => {
-        const depth = Math.max(0, stackPosition - index);
-        card.style.setProperty('--deck-scale', String(1 - depth * 0.05));
-        const body = card.firstElementChild as HTMLElement;
-        // Never create a nested scroll area. At unusually short viewports or
-        // enlarged text sizes, let an oversized chapter use normal page flow.
-        const available = window.innerHeight - metrics[index].top - 20;
-        const needsPageFlow = body.offsetHeight > available + 8;
-        card.toggleAttribute('data-page-flow', needsPageFlow);
-      });
-    };
-    const schedule = () => {
-      if (!frame) frame = requestAnimationFrame(paint);
-    };
-    const resize = new ResizeObserver(schedule);
-    cards.forEach((card) => resize.observe(card.firstElementChild!));
-    window.addEventListener('scroll', schedule, { passive: true });
-    window.addEventListener('resize', schedule);
-    schedule();
-    return () => {
-      cancelAnimationFrame(frame);
-      resize.disconnect();
-      window.removeEventListener('scroll', schedule);
-      window.removeEventListener('resize', schedule);
-    };
-  }, []);
   return (
     <div className={paused ? 'site motion-paused' : 'site'}>
       <header className="site-header">
@@ -131,7 +75,7 @@ export default function StarcraftSite() {
         </a>
       </header>
       <main className="site-content">
-        <div id="top" className="deck-anchor" aria-hidden="true" />
+        <div id="top" className="section-anchor" aria-hidden="true" />
         <section className="hero hero-canvas">
           <div className="hero-body">
             <div className="hero-copy">
@@ -196,10 +140,14 @@ export default function StarcraftSite() {
             </div>
           </div>
         </section>
-        <div className="card-deck">
-          <div id="how-it-works" className="deck-anchor" aria-hidden="true" />
-          <section className="process-deck deck-card">
-            <div className="deck-body">
+        <div className="page-sections">
+          <div
+            id="how-it-works"
+            className="section-anchor"
+            aria-hidden="true"
+          />
+          <section className="process-section">
+            <div className="section-content">
               <div className="intro">
                 <p className="eyebrow">From “what if” to right there.</p>
                 <h2>
@@ -262,9 +210,9 @@ export default function StarcraftSite() {
               </div>
             </div>
           </section>
-          <div id="workspace" className="deck-anchor" aria-hidden="true" />
-          <section className="workspace-section deck-card">
-            <div className="deck-body">
+          <div id="workspace" className="section-anchor" aria-hidden="true" />
+          <section className="workspace-section">
+            <div className="section-content">
               <div className="section-heading reveal">
                 <div>
                   <p className="eyebrow">One space. Your whole process.</p>
@@ -422,9 +370,9 @@ export default function StarcraftSite() {
               </div>
             </div>
           </section>
-          <div id="connections" className="deck-anchor" aria-hidden="true" />
-          <section className="connections paper deck-card">
-            <div className="deck-body">
+          <div id="connections" className="section-anchor" aria-hidden="true" />
+          <section className="connections">
+            <div className="section-content">
               <div className="connection-copy reveal">
                 <p className="eyebrow">Keep your world connected.</p>
                 <h2>
