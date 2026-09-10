@@ -111,7 +111,11 @@ export default function StarcraftSite() {
               <Image
                 unoptimized
                 priority
-                src="/images/idea-ink.png"
+                src={
+                  process.env.NEXT_PUBLIC_GITHUB_PAGES === 'true'
+                    ? '/starcraft/images/idea-ink.png'
+                    : '/images/idea-ink.png'
+                }
                 alt="A fine ink drawing of a flowing idea ribbon becoming a floating browser window."
                 width="1024"
                 height="1024"
