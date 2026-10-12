@@ -41,7 +41,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Validate release download selection
-        run: node --test scripts/release-downloads.test.mjs
+        run: node --test scripts/*.test.mjs
       - name: Build static website
         run: pnpm build
         env:

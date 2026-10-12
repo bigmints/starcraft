@@ -1708,3 +1708,56 @@ html {
 .closing .download-options {
   justify-content: center;
 }
+
+.download-options > span:first-child {
+  flex-basis: 100%;
+}
+.download-help {
+  max-width: 410px;
+  margin: 0 auto 20px;
+  color: #5d6462;
+  font-size: 12px;
+  line-height: 1.7;
+  scroll-margin-top: 160px;
+}
+.download-dialog {
+  width: min(460px, calc(100% - 32px));
+  margin: auto;
+  border: 1px solid #d8ddd6;
+  border-radius: 18px;
+  padding: 30px;
+  background: #f7f8f3;
+  color: #23382d;
+  box-shadow: 0 24px 100px #0003;
+}
+.download-dialog::backdrop {
+  background: #12231988;
+  backdrop-filter: blur(4px);
+}
+.download-dialog h2 {
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-size: 36px;
+  margin: 0 0 14px;
+}
+.download-dialog p {
+  font-size: 14px;
+  line-height: 1.7;
+  margin: 0 0 22px;
+}
+.download-dialog .pill {
+  display: flex;
+  width: 100%;
+  margin-top: 10px;
+  justify-content: center;
+}
+.download-dialog-close {
+  display: block;
+  margin: 20px auto 0;
+  background: transparent;
+  border: 0;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+}

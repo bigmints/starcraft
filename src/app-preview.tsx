@@ -24,6 +24,7 @@ import {
   Type,
   Undo2,
 } from 'lucide-react';
+import { DesignWorkbench, type ProjectView } from './design-workbench';
 import { content, contentText } from './content';
 import './app-preview.css';
 
@@ -54,12 +55,14 @@ type Tool = 'browse' | 'comment' | 'text';
 
 export function AppPreview() {
   const [view, setView] = useState<'canvas' | 'preview'>('preview');
+  const [projectView, setProjectView] = useState<ProjectView>('system');
   const [tool, setTool] = useState<Tool>('browse');
   const [mobile, setMobile] = useState(false);
   const [warm, setWarm] = useState(false);
   const [edited, setEdited] = useState(false);
   const [pages, setPages] = useState(false);
   const reset = () => {
+    setProjectView('system');
     setWarm(false);
     setEdited(false);
     setTool('browse');
@@ -109,6 +112,9 @@ export function AppPreview() {
           <br />
           {content['example.description.end']}
         </p>
+        <div className="example-cta-sample">
+          {content['appDemo.primaryButton']}
+        </div>
         <div className="example-color-study" aria-hidden="true">
           <span />
           <span />
@@ -281,7 +287,10 @@ export function AppPreview() {
                   <button
                     type="button"
                     aria-pressed={tool === 'comment'}
-                    onClick={() => setTool('comment')}
+                    onClick={() => {
+                      setTool('comment');
+                      setProjectView('prototype');
+                    }}
                   >
                     <MessageSquare size={13} />
                     {content['appDemo.comment']}
@@ -289,7 +298,10 @@ export function AppPreview() {
                   <button
                     type="button"
                     aria-pressed={tool === 'text'}
-                    onClick={() => setTool('text')}
+                    onClick={() => {
+                      setTool('text');
+                      setProjectView('content');
+                    }}
                   >
                     <Type size={13} />
                     {content['appDemo.editText']}
@@ -341,7 +353,16 @@ export function AppPreview() {
                   <small>/</small>
                 </span>
               )}
-              {projectPage}
+              <DesignWorkbench
+                view={projectView}
+                setView={setProjectView}
+                warm={warm}
+                setWarm={setWarm}
+                edited={edited}
+                setEdited={setEdited}
+              >
+                {projectPage}
+              </DesignWorkbench>
               {view === 'canvas' && (
                 <button
                   type="button"

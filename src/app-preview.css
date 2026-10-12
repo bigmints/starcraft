@@ -126,7 +126,7 @@
 .app-demo-workspace {
   display: grid;
   grid-template-columns: minmax(255px, 31%) minmax(0, 1fr);
-  min-height: 570px;
+  min-height: 800px;
 }
 .app-demo-chat {
   display: flex;
@@ -581,4 +581,286 @@
   .starcraft-demo .app-demo-page {
     transition: none;
   }
+}
+
+/* Sample project views stay inside the app's preview surface. */
+.design-workbench {
+  width: 100%;
+  min-width: 0;
+}
+.design-workbench-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding: 0 0 14px !important;
+}
+.starcraft-demo .design-workbench-tabs button {
+  padding: 8px 10px;
+  font-size: 11px;
+}
+.starcraft-demo .design-workbench-tabs button[aria-pressed='true'] {
+  background: var(--app-demo-panel);
+  color: var(--app-demo-accent);
+}
+.design-workbench-body {
+  display: grid;
+  grid-template-columns: minmax(195px, 0.82fr) minmax(0, 1fr);
+  gap: 16px;
+  align-items: start;
+}
+.design-workbench.is-prototype .design-workbench-body {
+  display: block;
+}
+.design-inspector {
+  display: grid;
+  gap: 12px;
+  min-width: 0;
+}
+.design-inspector > header {
+  padding: 2px 2px 6px;
+}
+.design-inspector > header > svg {
+  color: var(--app-demo-accent);
+  margin-bottom: 8px;
+}
+.design-inspector h3 {
+  margin: 0 0 7px;
+  font-size: 19px;
+  line-height: 1.2;
+  letter-spacing: -0.5px;
+  font-weight: 550;
+}
+.design-inspector p {
+  font-size: 11px;
+  line-height: 1.6;
+  margin: 0;
+  color: var(--app-demo-muted);
+}
+.design-card {
+  padding: 14px;
+  border: 1px solid var(--app-demo-border);
+  border-radius: 9px;
+  background: var(--app-demo-panel);
+}
+.design-card h4 {
+  font-size: 11px;
+  font-weight: 600;
+  margin: 0 0 12px;
+}
+.design-token {
+  display: flex;
+  gap: 9px;
+  align-items: center;
+  margin-top: 10px;
+  font-size: 10px;
+}
+.design-token i {
+  width: 29px;
+  height: 29px;
+  flex-shrink: 0;
+  border-radius: 7px;
+  border: 1px solid #00000010;
+}
+.design-token code {
+  display: block;
+  font-size: 9px;
+  color: var(--app-demo-muted);
+}
+.starcraft-demo .design-palette-action {
+  margin-top: 12px;
+  font-size: 10px;
+  color: var(--app-demo-accent);
+  padding-inline: 0;
+}
+.design-card .design-type-label {
+  font-size: 9px;
+}
+.design-card .design-type-specimen {
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-size: 27px;
+  line-height: 1.1;
+  color: #314434;
+  margin: 9px 0 13px;
+}
+.design-component-example {
+  border-radius: 6px;
+  padding: 8px 10px;
+  font-size: 10px;
+  color: white;
+  text-align: center;
+  margin-bottom: 7px;
+}
+.design-component-example.is-secondary {
+  background: transparent;
+  color: #314434;
+  border: 1px solid #31443440;
+}
+.design-card .design-component-example ~ p {
+  font-size: 9px;
+  margin-top: 9px;
+}
+.design-live-preview {
+  min-width: 0;
+  position: sticky;
+  top: 16px;
+}
+.design-live-label {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  font-size: 9px;
+  color: var(--app-demo-muted);
+  margin-bottom: 9px;
+}
+.design-live-label .status-dot {
+  width: 5px;
+  height: 5px;
+}
+.starcraft-demo .design-copy-choice {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  width: 100%;
+  text-align: left;
+  border: 1px solid var(--app-demo-border);
+  padding: 10px;
+  margin-bottom: 8px;
+  gap: 7px;
+  color: var(--app-demo-text);
+}
+.starcraft-demo .design-copy-choice[aria-pressed='true'] {
+  border-color: var(--app-demo-accent);
+  background: hsl(258 65% 98%);
+  box-shadow: none;
+}
+.design-copy-choice small {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--app-demo-muted);
+  font-size: 9px;
+}
+.design-copy-choice > span {
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-size: 20px;
+  line-height: 1.15;
+}
+.design-card .design-copy-cta {
+  color: #314434;
+  font-weight: 600;
+}
+.design-workbench .design-sample-label {
+  font-size: 9px;
+  color: var(--app-demo-muted);
+  margin: 16px 0 0;
+}
+.starcraft-demo .design-workbench:not(.is-prototype) .app-demo-page {
+  min-height: 570px;
+}
+.starcraft-demo .design-workbench:not(.is-prototype) .example-content {
+  padding: 32px 18px 0;
+}
+.starcraft-demo .design-workbench:not(.is-prototype) .example-content h3 {
+  font-size: clamp(26px, 2.8vw, 38px);
+  letter-spacing: -1px;
+}
+.starcraft-demo .design-workbench:not(.is-prototype) .example-nav {
+  padding-inline: 18px;
+}
+.starcraft-demo
+  .design-workbench:not(.is-prototype)
+  .example-nav
+  > span:last-child {
+  display: none;
+}
+.starcraft-demo .example-cta-sample {
+  display: inline-block;
+  background: #314434;
+  color: #fff;
+  border-radius: 6px;
+  padding: 9px 13px;
+  margin-top: 20px;
+  font:
+    10px/1.4 Inter,
+    sans-serif;
+}
+.starcraft-demo .warmer .example-cta-sample {
+  background: #b57853;
+}
+.starcraft-demo .design-workbench:not(.is-prototype) .example-color-study {
+  height: 92px;
+}
+.app-demo-stage.is-canvas .design-workbench .app-demo-page {
+  width: 100%;
+}
+@media (max-width: 1000px) and (min-width: 681px) {
+  .design-workbench-body {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .design-inspector {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .design-inspector > header {
+    grid-column: 1 / -1;
+  }
+  .design-live-preview {
+    position: static;
+  }
+  .starcraft-demo .design-workbench:not(.is-prototype) .app-demo-page {
+    min-height: 430px;
+  }
+}
+@media (max-width: 680px) {
+  .app-demo-workspace {
+    min-height: 1000px;
+  }
+  .app-demo-stage {
+    min-height: 680px;
+  }
+  .design-workbench-body {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .design-inspector {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 9px;
+  }
+  .design-inspector > header {
+    grid-column: 1 / -1;
+  }
+  .design-card {
+    padding: 12px;
+  }
+  .design-live-preview {
+    position: static;
+  }
+  .starcraft-demo .design-workbench-tabs button {
+    font-size: 10px;
+    padding-inline: 6px;
+  }
+  .starcraft-demo .design-workbench:not(.is-prototype) .app-demo-page {
+    min-height: 490px;
+  }
+}
+@media (max-width: 400px) {
+  .design-inspector {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.starcraft-demo .design-workbench .app-demo-page {
+  background: var(--demo-paper);
+  color: var(--demo-ink);
+}
+.starcraft-demo .design-workbench .example-content h3 {
+  color: var(--demo-ink);
+}
+.starcraft-demo .design-workbench .example-content h3 em {
+  color: var(--demo-accent);
+}
+.starcraft-demo .design-workbench .example-cta-sample {
+  background: var(--demo-accent);
+}
+.design-card .design-type-specimen,
+.design-copy-choice > span {
+  font-family: Georgia, serif;
 }

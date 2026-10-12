@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { detectMacArchitecture } from './mac-architecture.mjs';
 import publishedDownloads from './downloads.json';
 import {
   latestReleaseApi,
@@ -8,6 +9,18 @@ import {
 } from './release-downloads.mjs';
 
 export function useAppDownloads() {
+  const [architecture, setArchitecture] = useState<'arm64' | 'x64' | null>(
+    null,
+  );
+  useEffect(() => {
+    let active = true;
+    void detectMacArchitecture(navigator).then((value) => {
+      if (active) setArchitecture(value);
+    });
+    return () => {
+      active = false;
+    };
+  }, []);
   const [downloads, setDownloads] = useState(publishedDownloads);
   useEffect(() => {
     const controller = new AbortController();
@@ -29,5 +42,5 @@ export function useAppDownloads() {
       window.clearTimeout(timeout);
     };
   }, []);
-  return downloads;
+  return { ...downloads, architecture };
 }

@@ -22,11 +22,39 @@ import {
   AccordionTrigger,
   AccordionContent,
 } from '@/components/ui/accordion';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { content, contentText } from '@/src/content';
 
 export default function StarcraftSite() {
   const downloads = useAppDownloads();
+  const downloadDialog = useRef<HTMLDialogElement>(null);
+  const primaryDownload = downloads.architecture
+    ? downloads[downloads.architecture]
+    : '#download-options';
+  const downloadLabel =
+    downloads.architecture === 'arm64'
+      ? 'downloads.armLabel'
+      : downloads.architecture === 'x64'
+        ? 'downloads.intelLabel'
+        : 'downloads.buttonLabel';
+  const downloadOptions = (
+    <>
+      <span>
+        {
+          content[
+            downloads.architecture === 'arm64'
+              ? 'downloads.detectedArm'
+              : downloads.architecture === 'x64'
+                ? 'downloads.detectedIntel'
+                : 'downloads.unknown'
+          ]
+        }
+      </span>
+      <a href={downloads.arm64}>{content['downloads.silicon']}</a>
+      <span aria-hidden="true">·</span>
+      <a href={downloads.x64}>{content['downloads.intel']}</a>
+    </>
+  );
   const [paused, setPaused] = useState(false);
   useEffect(() => {
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -67,8 +95,14 @@ export default function StarcraftSite() {
         </nav>
         <a
           className="pill header-cta"
-          href={downloads.arm64}
-          aria-label={contentText('downloads.armLabel')}
+          href={primaryDownload}
+          onClick={(event) => {
+            if (!downloads.architecture && downloadDialog.current) {
+              event.preventDefault();
+              downloadDialog.current.showModal();
+            }
+          }}
+          aria-label={contentText(downloadLabel)}
         >
           {content['actions.downloadApp']}
           <Download size={17} />
@@ -89,8 +123,14 @@ export default function StarcraftSite() {
               <div className="hero-actions">
                 <a
                   className="pill dark"
-                  href={downloads.arm64}
-                  aria-label={contentText('downloads.armLabel')}
+                  href={primaryDownload}
+                  onClick={(event) => {
+                    if (!downloads.architecture && downloadDialog.current) {
+                      event.preventDefault();
+                      downloadDialog.current.showModal();
+                    }
+                  }}
+                  aria-label={contentText(downloadLabel)}
                 >
                   {content['actions.downloadApp']}
                   <Download size={18} />
@@ -100,16 +140,7 @@ export default function StarcraftSite() {
                   <ArrowDown size={16} />
                 </a>
               </div>
-              <p className="download-options">
-                {content['downloads.appleSilicon']}
-                <span aria-hidden="true">·</span>
-                <a
-                  href={downloads.x64}
-                  aria-label={contentText('downloads.intelLabel')}
-                >
-                  {content['downloads.intel']}
-                </a>
-              </p>
+              <p className="download-options">{downloadOptions}</p>
               <p className="hero-footnote">
                 <span className="status-dot" />
                 {content['hero.platform']}
@@ -371,22 +402,22 @@ export default function StarcraftSite() {
           </h2>
           <a
             className="pill dark"
-            href={downloads.arm64}
-            aria-label={contentText('downloads.armLabel')}
+            href={primaryDownload}
+            onClick={(event) => {
+              if (!downloads.architecture && downloadDialog.current) {
+                event.preventDefault();
+                downloadDialog.current.showModal();
+              }
+            }}
+            aria-label={contentText(downloadLabel)}
           >
             {content['actions.downloadApp']}
             <Download size={19} />
           </a>
-          <p className="download-options">
-            {content['downloads.appleSilicon']}
-            <span aria-hidden="true">·</span>
-            <a
-              href={downloads.x64}
-              aria-label={contentText('downloads.intelLabel')}
-            >
-              {content['downloads.intel']}
-            </a>
-          </p>
+          <p className="download-options">{downloadOptions}</p>
+          <div id="download-options" className="download-help">
+            {content['downloads.help']}
+          </div>
           <span className="closing-note">{content['closing.note']}</span>
         </div>
       </section>
@@ -407,6 +438,35 @@ export default function StarcraftSite() {
           {content['footer.signature']}
         </div>
       </footer>
+      <dialog
+        ref={downloadDialog}
+        className="download-dialog"
+        aria-labelledby="download-dialog-title"
+      >
+        <h2 id="download-dialog-title">{content['downloads.choose']}</h2>
+        <p>{content['downloads.help']}</p>
+        <a
+          className="pill dark"
+          href={downloads.arm64}
+          onClick={() => downloadDialog.current?.close()}
+        >
+          {content['downloads.silicon']}
+        </a>
+        <a
+          className="pill"
+          href={downloads.x64}
+          onClick={() => downloadDialog.current?.close()}
+        >
+          {content['downloads.intel']}
+        </a>
+        <button
+          type="button"
+          className="download-dialog-close"
+          onClick={() => downloadDialog.current?.close()}
+        >
+          {content['downloads.close']}
+        </button>
+      </dialog>
       {process.env.NODE_ENV === 'development' && (
         <details className="copy-catalog">
           <summary>{content['catalog.title']}</summary>
