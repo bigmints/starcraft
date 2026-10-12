@@ -864,3 +864,8 @@
 .design-copy-choice > span {
   font-family: Georgia, serif;
 }
+
+.app-demo-feedback {
+  display: block;
+  line-height: 1.5;
+}
