@@ -1,0 +1,5 @@
+{
+  "tag": "app-v0.1.12",
+  "arm64": "https://github.com/bigmints/starcraft/releases/download/app-v0.1.12/Starcraft-0.1.12-arm64.dmg",
+  "x64": "https://github.com/bigmints/starcraft/releases/download/app-v0.1.12/Starcraft-0.1.12-x64.dmg"
+}

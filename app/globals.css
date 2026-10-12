@@ -1682,3 +1682,29 @@ html {
   margin: 8px 0 0;
   line-height: 1.6;
 }
+
+.download-options {
+  display: flex;
+  align-items: center;
+  justify-content: inherit;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin: 14px 0;
+  font-size: 12px;
+  line-height: 1.6;
+  color: #5d6462;
+}
+.download-options a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.download-options a:hover {
+  color: var(--teal);
+}
+.download-options a:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 4px;
+}
+.closing .download-options {
+  justify-content: center;
+}

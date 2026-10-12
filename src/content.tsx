@@ -79,7 +79,7 @@ export const content = {
   "faq.figma.question": <span>{"How does it fit with Figma?"}</span>,
   "faq.figma.answer": <span>{"Bring a Figma selection into the conversation as a reference using Starcraft’s Figma bridge. Use it to explain the components, layout, or visual direction you want to explore. Connect the bridge in the app’s Integrations settings."}</span>,
   "faq.mac.question": <span>{"Where can I use Starcraft?"}</span>,
-  "faq.mac.answer": <span>{"Starcraft is a desktop app for Mac, with downloads for Apple Silicon and Intel. Choose an installer from the download page, then follow the in-app setup to connect a supported AI engine."}</span>,
+  "faq.mac.answer": <span>{"Starcraft is a desktop app for Mac. Download app starts the Apple Silicon installer; use the Intel Mac link for an Intel machine. Then follow the in-app setup to connect a supported AI engine."}</span>,
   "closing.eyebrow": <span>{"Make space for your next direction."}</span>,
   "closing.heading.start": <span>{"From “what if”"}</span>,
   "closing.heading.end": <span>{"to “try this.”"}</span>,
@@ -136,6 +136,10 @@ export const content = {
   "appDemo.editedHeadline": <span>{"Shaped with care."}</span>,
   "appDemo.restoreText": <span>{"Restore headline"}</span>,
   "appDemo.tryText": <span>{"Try a different headline"}</span>,
+  "downloads.appleSilicon": <span>{"For Apple Silicon"}</span>,
+  "downloads.intel": <span>{"Download for Intel Mac"}</span>,
+  "downloads.armLabel": <span>{"Download the latest Starcraft DMG for Apple Silicon"}</span>,
+  "downloads.intelLabel": <span>{"Download the latest Starcraft DMG for Intel Mac"}</span>,
 } as const;
 
 export type ContentKey = keyof typeof content;
@@ -143,6 +147,3 @@ export type ContentKey = keyof typeof content;
 export function contentText(key: ContentKey): string {
   return content[key].props.children;
 }
-
-export const appDownloadUrl =
-  'https://github.com/bigmints/starcraft/releases/latest';

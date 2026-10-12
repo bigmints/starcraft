@@ -1,6 +1,7 @@
 'use client';
 import Image from 'next/image';
 import { AppPreview } from './app-preview';
+import { useAppDownloads } from './use-app-downloads';
 import {
   ArrowUpRight,
   Download,
@@ -22,9 +23,10 @@ import {
   AccordionContent,
 } from '@/components/ui/accordion';
 import { useEffect, useState } from 'react';
-import { appDownloadUrl, content, contentText } from '@/src/content';
+import { content, contentText } from '@/src/content';
 
 export default function StarcraftSite() {
+  const downloads = useAppDownloads();
   const [paused, setPaused] = useState(false);
   useEffect(() => {
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -63,7 +65,11 @@ export default function StarcraftSite() {
           <a href="#workspace">{content['navigation.workspace']}</a>
           <a href="#questions">{content['navigation.questions']}</a>
         </nav>
-        <a className="pill header-cta" href={appDownloadUrl}>
+        <a
+          className="pill header-cta"
+          href={downloads.arm64}
+          aria-label={contentText('downloads.armLabel')}
+        >
           {content['actions.downloadApp']}
           <Download size={17} />
         </a>
@@ -81,7 +87,11 @@ export default function StarcraftSite() {
               </h1>
               <p className="hero-description">{content['hero.description']}</p>
               <div className="hero-actions">
-                <a className="pill dark" href={appDownloadUrl}>
+                <a
+                  className="pill dark"
+                  href={downloads.arm64}
+                  aria-label={contentText('downloads.armLabel')}
+                >
                   {content['actions.downloadApp']}
                   <Download size={18} />
                 </a>
@@ -90,6 +100,16 @@ export default function StarcraftSite() {
                   <ArrowDown size={16} />
                 </a>
               </div>
+              <p className="download-options">
+                {content['downloads.appleSilicon']}
+                <span aria-hidden="true">·</span>
+                <a
+                  href={downloads.x64}
+                  aria-label={contentText('downloads.intelLabel')}
+                >
+                  {content['downloads.intel']}
+                </a>
+              </p>
               <p className="hero-footnote">
                 <span className="status-dot" />
                 {content['hero.platform']}
@@ -349,10 +369,24 @@ export default function StarcraftSite() {
             <br />
             <em>{content['closing.heading.end']}</em>
           </h2>
-          <a className="pill dark" href={appDownloadUrl}>
+          <a
+            className="pill dark"
+            href={downloads.arm64}
+            aria-label={contentText('downloads.armLabel')}
+          >
             {content['actions.downloadApp']}
             <Download size={19} />
           </a>
+          <p className="download-options">
+            {content['downloads.appleSilicon']}
+            <span aria-hidden="true">·</span>
+            <a
+              href={downloads.x64}
+              aria-label={contentText('downloads.intelLabel')}
+            >
+              {content['downloads.intel']}
+            </a>
+          </p>
           <span className="closing-note">{content['closing.note']}</span>
         </div>
       </section>
