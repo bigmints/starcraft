@@ -142,9 +142,9 @@ export const content = {
   "downloads.intelLabel": <span>{"Download the latest Starcraft DMG for Intel Mac"}</span>,
   "downloads.choose": <span>{"Choose your Mac"}</span>,
   "downloads.help": <span>{"In the Apple menu, open About This Mac. “Chip” with an Apple M-series name means Apple Silicon. “Processor” with Intel means Intel."}</span>,
-  "downloads.unknown": <span>{"Choose Apple Silicon or Intel for your Mac."}</span>,
-  "downloads.detectedArm": <span>{"Apple Silicon detected"}</span>,
-  "downloads.detectedIntel": <span>{"Intel Mac detected"}</span>,
+  "downloads.unknown": <span>{"For macOS"}</span>,
+  "downloads.detectedArm": <span>{"macOS · Apple Silicon"}</span>,
+  "downloads.detectedIntel": <span>{"macOS · Intel"}</span>,
   "downloads.silicon": <span>{"Download for Apple Silicon"}</span>,
   "downloads.close": <span>{"Close download options"}</span>,
   "downloads.buttonLabel": <span>{"Download Starcraft for your Mac"}</span>,
@@ -180,6 +180,7 @@ export const content = {
   "appDemo.variantAlternative": <span>{"More personal"}</span>,
   "appDemo.copyApplied": <span>{"The selected headline is reflected in the live example."}</span>,
   "appDemo.sampleLabel": <span>{"Sample project · Local changes only"}</span>,
+  "downloads.changeMac": <span>{"Choose another Mac"}</span>,
 } as const;
 
 export type ContentKey = keyof typeof content;

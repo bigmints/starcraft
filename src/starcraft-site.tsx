@@ -50,9 +50,21 @@ export default function StarcraftSite() {
           ]
         }
       </span>
-      <a href={downloads.arm64}>{content['downloads.silicon']}</a>
-      <span aria-hidden="true">·</span>
-      <a href={downloads.x64}>{content['downloads.intel']}</a>
+      <a
+        href="#download-options"
+        onClick={(event) => {
+          if (downloadDialog.current) {
+            event.preventDefault();
+            downloadDialog.current.showModal();
+          }
+        }}
+      >
+        {
+          content[
+            downloads.architecture ? 'downloads.changeMac' : 'downloads.choose'
+          ]
+        }
+      </a>
     </>
   );
   const [paused, setPaused] = useState(false);
@@ -141,10 +153,6 @@ export default function StarcraftSite() {
                 </a>
               </div>
               <p className="download-options">{downloadOptions}</p>
-              <p className="hero-footnote">
-                <span className="status-dot" />
-                {content['hero.platform']}
-              </p>
             </div>
             <div className="hero-art">
               <div className="art-orbit" />
@@ -415,9 +423,12 @@ export default function StarcraftSite() {
             <Download size={19} />
           </a>
           <p className="download-options">{downloadOptions}</p>
-          <div id="download-options" className="download-help">
-            {content['downloads.help']}
-          </div>
+          <noscript>
+            <div id="download-options" className="download-fallback">
+              <a href={downloads.arm64}>{content['downloads.silicon']}</a>
+              <a href={downloads.x64}>{content['downloads.intel']}</a>
+            </div>
+          </noscript>
           <span className="closing-note">{content['closing.note']}</span>
         </div>
       </section>
