@@ -4,7 +4,9 @@ Standalone marketing website. Node 22 and pnpm.
 
 Run `pnpm install`, then `pnpm dev --port 4329`. Run `pnpm exec tsc --noEmit`, `pnpm lint`, and `pnpm build` before publishing.
 
-The shared download CTA copy is keyed in `src/content.tsx` as static JSX compatible with Starcraft's existing text source mapping. Other authored visible copy remains in `src/starcraft-site.tsx`; full catalog editing has not been migrated. Shared theme and motion live in `app/globals.css`. The workspace is explicitly an interactive example. Download CTAs link to the latest published desktop release, where visitors can choose Apple Silicon or Intel installers. Motion respects reduced-motion preferences and the pause control.
+Website copy, accessibility labels, and page metadata are keyed in `src/content.tsx`. The site introduces design systems, copywriting, and prototyping through a designer's workflow. Shared theme and motion live in `app/globals.css`. The workspace is explicitly an interactive example. Download CTAs link to the latest published desktop release, where visitors can choose Apple Silicon or Intel installers. Motion respects reduced-motion preferences and the pause control.
+
+The development preview includes a Content catalog below the footer, exposing every entry, including hidden states and metadata, for selection with Starcraft's existing text editor. Each entry is a static JSX leaf so edits use the existing source-mapping and persistence path. Keep those leaves on one line; `src/content.tsx` is excluded from automatic formatting because added JSX whitespace breaks the current editor's one-child requirement. This is a website-specific catalog, not a migration of Starcraft's generic content resolver or generated project templates. Backend save/reload and repeated-key rendering have been checked; the complete UI edit round trip still needs the built-in preview tools.
 
 The original ink illustration was generated for this site. Hosting registration is in `.openai/hosting.json`.
 

@@ -1647,3 +1647,38 @@ html {
     min-height: 44px;
   }
 }
+
+/* Visible only in development; entries retain the preview editor's source markers. */
+.copy-catalog {
+  margin: 32px auto;
+  padding: 24px;
+  max-width: 1100px;
+  color: #e6ece8;
+  background: #203b36;
+  border: 1px solid #648c7d;
+  border-radius: 16px;
+}
+.copy-catalog summary {
+  cursor: pointer;
+  font-weight: 600;
+}
+.copy-catalog > p {
+  margin: 16px 0;
+}
+.copy-catalog dl {
+  display: grid;
+  gap: 16px;
+}
+.copy-catalog dl > div {
+  border-top: 1px solid #648c7d;
+  padding-top: 16px;
+}
+.copy-catalog dt {
+  font-family: monospace;
+  font-size: 12px;
+  color: #a4c9b9;
+}
+.copy-catalog dd {
+  margin: 8px 0 0;
+  line-height: 1.6;
+}

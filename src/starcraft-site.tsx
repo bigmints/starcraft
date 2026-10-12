@@ -26,7 +26,7 @@ import {
   AccordionContent,
 } from '@/components/ui/accordion';
 import { useEffect, useState } from 'react';
-import { appDownloadUrl, content } from '@/src/content';
+import { appDownloadUrl, content, contentText } from '@/src/content';
 
 export default function StarcraftSite() {
   const [paused, setPaused] = useState(false);
@@ -56,20 +56,18 @@ export default function StarcraftSite() {
   return (
     <div className={paused ? 'site motion-paused' : 'site'}>
       <header className="site-header">
-        <a href="#top" className="brand" aria-label="Starcraft home">
+        <a
+          href="#top"
+          className="brand"
+          aria-label={contentText('brand.homeLabel')}
+        >
           <Asterisk />
-          <span>starcraft</span>
+          {content['brand.name']}
         </a>
-        <nav aria-label="Main navigation">
-          <a href="#how-it-works">
-            <span>How it works</span>
-          </a>
-          <a href="#workspace">
-            <span>The workspace</span>
-          </a>
-          <a href="#questions">
-            <span>A few answers</span>
-          </a>
+        <nav aria-label={contentText('navigation.label')}>
+          <a href="#how-it-works">{content['navigation.useCases']}</a>
+          <a href="#workspace">{content['navigation.workspace']}</a>
+          <a href="#questions">{content['navigation.questions']}</a>
         </nav>
         <a className="pill header-cta" href={appDownloadUrl}>
           {content['actions.downloadApp']}
@@ -81,31 +79,26 @@ export default function StarcraftSite() {
         <section className="hero hero-canvas">
           <div className="hero-body">
             <div className="hero-copy">
-              <p className="eyebrow">
-                <span>A little spark. A whole new possibility.</span>
-              </p>
+              <p className="eyebrow">{content['hero.eyebrow']}</p>
               <h1>
-                <span>Big ideas.</span>
-                <span>Meet your</span>
-                <em>making space.</em>
+                {content['hero.headline.design']}
+                {content['hero.headline.write']}
+                <em>{content['hero.headline.try']}</em>
               </h1>
-              <p className="hero-description">
-                Turn what’s in your head into something you can see. Describe
-                it, shape it, and make it yours — all in Starcraft.
-              </p>
+              <p className="hero-description">{content['hero.description']}</p>
               <div className="hero-actions">
                 <a className="pill dark" href={appDownloadUrl}>
                   {content['actions.downloadApp']}
                   <Download size={18} />
                 </a>
                 <a className="text-link" href="#how-it-works">
-                  <span>Take a look around</span>
+                  {content['hero.explore']}
                   <ArrowDown size={16} />
                 </a>
               </div>
               <p className="hero-footnote">
                 <span className="status-dot" />
-                <span>A creative workspace for your Mac.</span>
+                {content['hero.platform']}
               </p>
             </div>
             <div className="hero-art">
@@ -114,30 +107,32 @@ export default function StarcraftSite() {
                 unoptimized
                 priority
                 src="/images/idea-ink.png"
-                alt="A fine ink drawing of a flowing idea ribbon becoming a floating browser window."
+                alt={contentText('hero.imageAlt')}
                 width="1024"
                 height="1024"
               />
               <div className="art-note note-top">
                 <span className="small-cross" />
-                <span>It starts with a thought.</span>
+                {content['hero.artNote.start']}
               </div>
               <div className="art-note note-bottom">
-                <span>Make room for what’s next.</span>
+                {content['hero.artNote.finish']}
                 <ArrowUpRight size={18} />
               </div>
             </div>
             <div className="hero-bottom">
-              <p>Less explaining. More creating.</p>
+              <p>{content['hero.tagline']}</p>
               <Button
                 className="motion-button"
                 variant="ghost"
-                aria-label={paused ? 'Play animations' : 'Pause animations'}
+                aria-label={contentText(
+                  paused ? 'motion.playLabel' : 'motion.pauseLabel',
+                )}
                 aria-pressed={paused}
                 onClick={() => setPaused(!paused)}
               >
                 {paused ? <Play /> : <Pause />}
-                <span>Motion</span>
+                {content['motion.label']}
               </Button>
             </div>
           </div>
@@ -151,61 +146,48 @@ export default function StarcraftSite() {
           <section className="process-section">
             <div className="section-content">
               <div className="intro">
-                <p className="eyebrow">From “what if” to right there.</p>
+                <p className="eyebrow">{content['useCases.eyebrow']}</p>
                 <h2>
-                  <span>Your idea doesn’t need</span>
+                  {content['useCases.heading.start']}
                   <br />
-                  <em>another blank page.</em>
+                  <em>{content['useCases.heading.end']}</em>
                 </h2>
-                <p>
-                  It needs a place to take shape. A conversation to get going. A
-                  live view to see what’s working. And the freedom to keep
-                  making it better.
-                </p>
+                <p>{content['useCases.description']}</p>
               </div>
-              <div className="steps" aria-label="How Starcraft works">
+              <div className="steps" aria-label={contentText('useCases.label')}>
                 <div className="step reveal">
                   <div className="step-number">
-                    <span>01</span>
+                    {content['useCases.systems.number']}
                     <MessageCircle />
                   </div>
-                  <h3>Say what you see.</h3>
-                  <p>
-                    A website, a fresh direction, a tiny change. Start with your
-                    own words and a reference you love.
-                  </p>
+                  <h3>{content['useCases.systems.title']}</h3>
+                  <p>{content['useCases.systems.description']}</p>
                   <div className="step-bottom">
-                    <span>Start a conversation</span>
+                    {content['useCases.systems.caption']}
                     <ArrowUpRight />
                   </div>
                 </div>
                 <div className="step reveal">
                   <div className="step-number">
-                    <span>02</span>
+                    {content['useCases.copy.number']}
                     <MousePointer2 />
                   </div>
-                  <h3>Point to the details.</h3>
-                  <p>
-                    See your work as it takes shape. Click the part you want to
-                    change and leave a note right there.
-                  </p>
+                  <h3>{content['useCases.copy.title']}</h3>
+                  <p>{content['useCases.copy.description']}</p>
                   <div className="step-bottom">
-                    <span>Make it feel right</span>
+                    {content['useCases.copy.caption']}
                     <ArrowUpRight />
                   </div>
                 </div>
                 <div className="step reveal">
                   <div className="step-number">
-                    <span>03</span>
+                    {content['useCases.prototypes.number']}
                     <Layers />
                   </div>
-                  <h3>Keep the good stuff.</h3>
-                  <p>
-                    Your conversation, references, and preview stay together.
-                    Pick up the thread and keep creating.
-                  </p>
+                  <h3>{content['useCases.prototypes.title']}</h3>
+                  <p>{content['useCases.prototypes.description']}</p>
                   <div className="step-bottom">
-                    <span>Stay in your flow</span>
+                    {content['useCases.prototypes.caption']}
                     <ArrowUpRight />
                   </div>
                 </div>
@@ -217,19 +199,19 @@ export default function StarcraftSite() {
             <div className="section-content">
               <div className="section-heading reveal">
                 <div>
-                  <p className="eyebrow">One space. Your whole process.</p>
+                  <p className="eyebrow">{content['workspace.eyebrow']}</p>
                   <h2>
-                    <span>A little less back and forth.</span>
+                    {content['workspace.heading.start']}
                     <br />
-                    <em>A lot more “that’s it.”</em>
+                    <em>{content['workspace.heading.end']}</em>
                   </h2>
                 </div>
                 <p>
-                  A conversation on one side.
+                  {content['workspace.description.start']}
                   <br />
-                  Your idea coming to life on the other.
+                  {content['workspace.description.middle']}
                   <br />
-                  Try a small change below.
+                  {content['workspace.description.end']}
                 </p>
               </div>
               <div className="workspace-demo reveal">
@@ -239,39 +221,33 @@ export default function StarcraftSite() {
                     <i />
                     <i />
                   </div>
-                  <p>Sunday Studio</p>
-                  <span className="demo-label">Interactive example</span>
+                  <p>{content['demo.projectName']}</p>
+                  <span className="demo-label">{content['demo.label']}</span>
                 </div>
                 <div className="demo-body">
                   <div className="conversation">
                     <div className="conversation-title">
                       <Asterisk size={20} />
-                      <span>Let’s make something.</span>
+                      {content['demo.conversationTitle']}
                     </div>
                     <div className="user-message">
-                      <p>
-                        A quiet little website for my pottery studio. Warm,
-                        simple, and a bit playful.
-                      </p>
+                      <p>{content['demo.prompt']}</p>
                     </div>
                     <div className="assistant-message">
                       <Asterisk size={18} />
-                      <p>
-                        A little space for things made slowly. Let’s give it
-                        some room to breathe.
-                      </p>
+                      <p>{content['demo.response']}</p>
                     </div>
                     <div className="example-reference">
                       <Layers size={20} />
                       <div>
-                        <p>Sunday Studio</p>
-                        <span>First look</span>
+                        <p>{content['demo.projectName']}</p>
+                        {content['demo.referenceLabel']}
                       </div>
                       <Check size={16} />
                     </div>
                     <div className="demo-instruction">
                       <CornerDownRight size={19} />
-                      <p>Make a small change.</p>
+                      <p>{content['demo.instruction']}</p>
                     </div>
                     <Button
                       variant="outline"
@@ -280,31 +256,25 @@ export default function StarcraftSite() {
                       aria-pressed={refined}
                     >
                       {refined ? <Check /> : <MousePointer2 />}
-                      {refined ? (
-                        <span>Undo the change</span>
-                      ) : (
-                        <span>Make it a little warmer</span>
-                      )}
+                      {refined ? content['demo.undo'] : content['demo.refine']}
                       <ArrowUpRight />
                     </Button>
                     <output className="demo-feedback">
                       {refined ? (
-                        <span>
-                          A warmer palette. A little more personality.
-                        </span>
+                        <span>{content['demo.feedback.refined']}</span>
                       ) : (
-                        <span>Your ideas. A little room to play.</span>
+                        content['demo.feedback.initial']
                       )}
                     </output>
                   </div>
                   <div className="preview-column">
                     <div className="preview-toolbar">
-                      <span>Live preview</span>
+                      {content['demo.previewLabel']}
                       <div>
                         <Button
                           variant="ghost"
                           size="icon"
-                          aria-label="Show desktop preview"
+                          aria-label={contentText('demo.desktopLabel')}
                           aria-pressed={!mobile}
                           onClick={() => setMobile(false)}
                         >
@@ -313,7 +283,7 @@ export default function StarcraftSite() {
                         <Button
                           variant="ghost"
                           size="icon"
-                          aria-label="Show phone preview"
+                          aria-label={contentText('demo.phoneLabel')}
                           aria-pressed={mobile}
                           onClick={() => setMobile(true)}
                         >
@@ -329,22 +299,22 @@ export default function StarcraftSite() {
                       }
                     >
                       <div className="example-nav">
-                        <span>sunday.</span>
-                        <span>Made by hand, in good time.</span>
+                        {content['example.brand']}
+                        {content['example.tagline']}
                       </div>
                       <div className="example-content">
                         <p className="example-eyebrow">
-                          Clay. Care. A little curiosity.
+                          {content['example.eyebrow']}
                         </p>
                         <h3>
-                          <span>Good things.</span>
+                          {content['example.heading.start']}
                           <br />
-                          <em>Made slowly.</em>
+                          <em>{content['example.heading.end']}</em>
                         </h3>
                         <p>
-                          Everyday pieces, with a little
+                          {content['example.description.start']}
                           <br />
-                          something of their own.
+                          {content['example.description.end']}
                         </p>
                         <div className="example-color-study" aria-hidden="true">
                           <span />
@@ -355,7 +325,7 @@ export default function StarcraftSite() {
                           <span />
                         </div>
                         <div className="example-bottom">
-                          <span>A small studio. An open mind.</span>
+                          {content['example.footer']}
                           <MoveUpRight size={26} />
                         </div>
                       </div>
@@ -364,10 +334,10 @@ export default function StarcraftSite() {
                 </div>
               </div>
               <div className="workspace-caption">
-                <p>This is a hands-on example of the creative flow.</p>
+                <p>{content['workspace.caption']}</p>
                 <p>
                   <span className="status-dot" />
-                  <span>Small changes. Big difference.</span>
+                  {content['workspace.captionNote']}
                 </p>
               </div>
             </div>
@@ -376,25 +346,21 @@ export default function StarcraftSite() {
           <section className="connections">
             <div className="section-content">
               <div className="connection-copy reveal">
-                <p className="eyebrow">Keep your world connected.</p>
+                <p className="eyebrow">{content['connections.eyebrow']}</p>
                 <h2>
-                  <span>Bring your ideas.</span>
+                  {content['connections.heading.start']}
                   <br />
-                  <em>And your favourite tools.</em>
+                  <em>{content['connections.heading.end']}</em>
                 </h2>
-                <p>
-                  Start fresh or open a project you’re already working on. Bring
-                  in a Figma reference, add a screenshot, and keep the things
-                  that matter close.
-                </p>
+                <p>{content['connections.description']}</p>
                 <a href="#questions" className="text-link">
-                  <span>A few things worth knowing</span>
+                  {content['connections.questionsLink']}
                   <ArrowDown size={17} />
                 </a>
               </div>
               <div
                 className="connection-diagram reveal"
-                aria-label="Your projects, Figma references and visual feedback connected in Starcraft"
+                aria-label={contentText('connections.diagramLabel')}
               >
                 <svg
                   className="connection-lines"
@@ -410,23 +376,23 @@ export default function StarcraftSite() {
                 </svg>
                 <div className="connection-node node-project">
                   <FolderOpen />
-                  <span>Your projects</span>
+                  {content['connections.projects']}
                 </div>
                 <div className="connection-node node-figma">
                   <PenTool />
-                  <span>Figma</span>
+                  {content['connections.figma']}
                 </div>
                 <div className="connection-node node-notes">
                   <MessageCircle />
-                  <span>Your feedback</span>
+                  {content['connections.feedback']}
                 </div>
                 <div className="connection-node node-ideas">
                   <Layers />
-                  <span>Your references</span>
+                  {content['connections.references']}
                 </div>
                 <div className="connection-center">
                   <Asterisk />
-                  <span>starcraft</span>
+                  {content['brand.name']}
                 </div>
               </div>
             </div>
@@ -436,61 +402,60 @@ export default function StarcraftSite() {
         <section className="questions questions-canvas">
           <div className="questions-body">
             <div className="reveal">
-              <p className="eyebrow">Good questions.</p>
+              <p className="eyebrow">{content['faq.eyebrow']}</p>
               <h2>
-                <span>A little clarity.</span>
+                {content['faq.heading.start']}
                 <br />
-                <em>Before you begin.</em>
+                <em>{content['faq.heading.end']}</em>
               </h2>
             </div>
             <Accordion className="faq reveal" defaultValue={['what']}>
               <AccordionItem value="what">
                 <AccordionTrigger>
-                  <span>What is Starcraft?</span>
+                  {content['faq.what.question']}
                 </AccordionTrigger>
                 <AccordionContent>
-                  <p>
-                    Starcraft is a creative desktop workspace. Describe what you
-                    want to make, see a live preview, and leave feedback
-                    directly on the parts you want to change.
-                  </p>
+                  <p>{content['faq.what.answer']}</p>
+                </AccordionContent>
+              </AccordionItem>
+              <AccordionItem value="systems">
+                <AccordionTrigger>
+                  {content['faq.systems.question']}
+                </AccordionTrigger>
+                <AccordionContent>
+                  <p>{content['faq.systems.answer']}</p>
+                </AccordionContent>
+              </AccordionItem>
+              <AccordionItem value="copy">
+                <AccordionTrigger>
+                  {content['faq.copy.question']}
+                </AccordionTrigger>
+                <AccordionContent>
+                  <p>{content['faq.copy.answer']}</p>
                 </AccordionContent>
               </AccordionItem>
               <AccordionItem value="code">
                 <AccordionTrigger>
-                  <span>Do I need to know how to code?</span>
+                  {content['faq.code.question']}
                 </AccordionTrigger>
                 <AccordionContent>
-                  <p>
-                    You can start with plain language and visual references.
-                    Starcraft helps you shape the result through conversation.
-                    Some projects may still need technical setup or a
-                    developer’s help.
-                  </p>
+                  <p>{content['faq.code.answer']}</p>
                 </AccordionContent>
               </AccordionItem>
               <AccordionItem value="figma">
                 <AccordionTrigger>
-                  <span>Can I bring my Figma work?</span>
+                  {content['faq.figma.question']}
                 </AccordionTrigger>
                 <AccordionContent>
-                  <p>
-                    Yes. Connect Figma through Starcraft’s bridge and bring a
-                    selection into the conversation as a reference. Setup
-                    happens in the desktop app’s Integrations settings.
-                  </p>
+                  <p>{content['faq.figma.answer']}</p>
                 </AccordionContent>
               </AccordionItem>
               <AccordionItem value="mac">
                 <AccordionTrigger>
-                  <span>Where does Starcraft run?</span>
+                  {content['faq.mac.question']}
                 </AccordionTrigger>
                 <AccordionContent>
-                  <p>
-                    Starcraft is built for the Mac. This website gives you a
-                    feel for the workspace; the full creative experience lives
-                    in the desktop app.
-                  </p>
+                  <p>{content['faq.mac.answer']}</p>
                 </AccordionContent>
               </AccordionItem>
             </Accordion>
@@ -502,38 +467,50 @@ export default function StarcraftSite() {
           <div className="closing-mark" aria-hidden="true">
             <Asterisk />
           </div>
-          <p className="eyebrow">Leave a little room for possibility.</p>
+          <p className="eyebrow">{content['closing.eyebrow']}</p>
           <h2>
-            <span>It’s a good day</span>
+            {content['closing.heading.start']}
             <br />
-            <em>to make something.</em>
+            <em>{content['closing.heading.end']}</em>
           </h2>
           <a className="pill dark" href={appDownloadUrl}>
             {content['actions.downloadApp']}
             <Download size={19} />
           </a>
-          <span className="closing-note">
-            Start with a thought. See where it goes.
-          </span>
+          <span className="closing-note">{content['closing.note']}</span>
         </div>
       </section>
       <footer className="site-footer">
         <div className="footer-top">
           <a href="#top" className="brand">
             <Asterisk />
-            <span>starcraft</span>
+            {content['brand.name']}
           </a>
-          <p>A little spark goes a long way.</p>
+          <p>{content['footer.tagline']}</p>
           <a className="text-link" href="#top">
-            <span>Back to the top</span>
+            {content['footer.backToTop']}
             <ArrowUpRight size={18} />
           </a>
         </div>
         <div className="footer-bottom">
-          <span>© 2026 Starcraft</span>
-          <span>Made for the way ideas happen.</span>
+          {content['footer.copyright']}
+          {content['footer.signature']}
         </div>
       </footer>
+      {process.env.NODE_ENV === 'development' && (
+        <details className="copy-catalog">
+          <summary>{content['catalog.title']}</summary>
+          <p>{content['catalog.help']}</p>
+          <dl>
+            {Object.entries(content).map(([key, value]) => (
+              <div key={key}>
+                <dt>{key}</dt>
+                <dd>{value}</dd>
+              </div>
+            ))}
+          </dl>
+        </details>
+      )}
     </div>
   );
 }

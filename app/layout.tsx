@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
+import { contentText } from '@/src/content';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -13,10 +14,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'Starcraft — Give your ideas a place to land',
+  title: contentText('metadata.title'),
   icons: { icon: '/favicon.svg' },
-  description:
-    'Turn what’s in your head into something you can see. A creative workspace for your Mac, with live previews and visual feedback.',
+  description: contentText('metadata.description'),
 };
 
 export default function RootLayout({
