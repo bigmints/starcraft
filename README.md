@@ -10,4 +10,4 @@ The original ink illustration was generated for this site. Hosting registration 
 
 Every chapter now flows naturally down the page. The opening, how it works, workspace example, connected tools, FAQ, and closing have content-driven heights. There are no stacked cards, sticky chapter positions, scroll-based scaling, viewport-sized frames, or internal slide scrollbars. The existing illustration, decorative motion, and interactive example remain.
 
-Pushes to `main` run [`.github/workflows/deploy-pages.yml`](.github/workflows/deploy-pages.yml). The workflow builds the static site with Node 22 and pnpm, then publishes `dist/client` to [GitHub Pages](https://bigmints.github.io/starcraft/). GitHub Pages uses `/starcraft/`; local and Sites builds continue to use `/`.
+Pushes to `main` run [`.github/workflows/deploy-pages.yml`](.github/workflows/deploy-pages.yml). The workflow builds the static site with Node 22 and pnpm, then publishes `dist/client` to [starcraft.design](https://starcraft.design/). All builds use root-relative asset paths. The custom domain is configured in the repository's GitHub Pages settings; this Actions deployment does not require a CNAME file.
