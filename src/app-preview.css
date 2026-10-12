@@ -1,0 +1,584 @@
+/* Workspace geometry and light-theme colors follow the desktop renderer. */
+.starcraft-demo {
+  --app-demo-bg: hsl(240 20% 98%);
+  --app-demo-panel: #fff;
+  --app-demo-text: hsl(240 14% 14%);
+  --app-demo-muted: hsl(240 6% 44%);
+  --app-demo-border: hsl(240 6% 90%);
+  --app-demo-soft: hsl(240 5% 96%);
+  --app-demo-accent: hsl(258 62% 54%);
+  color: var(--app-demo-text);
+  background: var(--app-demo-panel);
+  border: 1px solid hsl(240 6% 83%);
+  border-radius: 12px;
+  box-shadow:
+    0 24px 65px hsl(240 24% 20% / 0.13),
+    0 2px 8px #00000006;
+  overflow: hidden;
+  font-family:
+    Inter,
+    ui-sans-serif,
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    sans-serif;
+  font-size: 12px;
+  line-height: 1.5;
+  isolation: isolate;
+}
+.starcraft-demo button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  min-height: 30px;
+  border: 0;
+  border-radius: 6px;
+  padding: 4px 7px;
+  background: transparent;
+  color: var(--app-demo-muted);
+  font: inherit;
+  cursor: pointer;
+}
+.starcraft-demo button:hover {
+  background: var(--app-demo-soft);
+  color: var(--app-demo-text);
+}
+.starcraft-demo button:focus-visible {
+  outline: 2px solid var(--app-demo-accent);
+  outline-offset: -2px;
+}
+.starcraft-demo button[aria-pressed='true'] {
+  background: var(--app-demo-soft);
+  color: var(--app-demo-text);
+  box-shadow: inset 0 0 0 1px var(--app-demo-border);
+}
+.starcraft-demo svg {
+  flex-shrink: 0;
+  stroke-width: 1.7;
+}
+:where(.starcraft-demo) fieldset {
+  min-width: 0;
+  border: 0;
+  padding: 0;
+  margin: 0;
+}
+.app-demo-titlebar {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-height: 44px;
+  padding: 0 12px;
+  border-bottom: 1px solid var(--app-demo-border);
+  background: var(--app-demo-panel);
+}
+.app-demo-traffic {
+  display: flex;
+  gap: 6px;
+  padding-right: 4px;
+}
+.app-demo-traffic i {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #ff5f57;
+}
+.app-demo-traffic i:nth-child(2) {
+  background: #febc2e;
+}
+.app-demo-traffic i:nth-child(3) {
+  background: #28c840;
+}
+.app-demo-home,
+.app-demo-project {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  white-space: nowrap;
+  font-weight: 550;
+}
+.app-demo-home svg {
+  color: var(--app-demo-accent);
+}
+.app-demo-project {
+  color: var(--app-demo-muted);
+}
+.app-demo-project > span {
+  color: var(--app-demo-text);
+}
+.app-demo-view-tabs {
+  display: flex;
+  gap: 3px;
+  margin-left: 12px;
+}
+.app-demo-window-tools {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: auto;
+}
+.app-demo-window-tools > span {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  color: var(--app-demo-muted);
+}
+.app-demo-workspace {
+  display: grid;
+  grid-template-columns: minmax(255px, 31%) minmax(0, 1fr);
+  min-height: 570px;
+}
+.app-demo-chat {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  border-right: 5px solid var(--app-demo-border);
+  background: var(--app-demo-panel);
+}
+.app-demo-chat-header {
+  min-height: 38px;
+  padding: 0 13px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  border-bottom: 1px solid var(--app-demo-border);
+}
+.app-demo-chat-header strong {
+  font-size: 11px;
+  font-weight: 550;
+}
+.app-demo-chat-header > span {
+  display: flex;
+  gap: 13px;
+  margin-left: auto;
+  color: var(--app-demo-muted);
+}
+.app-demo-messages {
+  padding: 22px 18px 16px;
+  flex: 1;
+}
+.app-demo-messages p {
+  font-size: 12px;
+  line-height: 1.7;
+  margin: 0;
+}
+.app-demo-user {
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: var(--app-demo-soft);
+}
+.app-demo-message-meta {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 7px;
+  font-size: 10px;
+  color: var(--app-demo-muted);
+}
+.app-demo-assistant {
+  padding: 23px 0 10px;
+}
+.app-demo-assistant ul {
+  margin: 12px 0;
+  padding-left: 17px;
+  list-style: disc;
+}
+.app-demo-assistant li {
+  margin: 6px 0;
+  line-height: 1.65;
+}
+.app-demo-comment {
+  display: flex;
+  gap: 9px;
+  padding: 10px;
+  border: 1px solid hsl(258 62% 54% / 0.3);
+  border-radius: 8px;
+  margin-top: 14px;
+  background: hsl(258 65% 98%);
+}
+.app-demo-comment > span {
+  display: grid;
+  place-items: center;
+  flex: 0 0 18px;
+  height: 18px;
+  color: #fff;
+  background: var(--app-demo-accent);
+  border-radius: 50%;
+  font-size: 10px;
+}
+.app-demo-comment strong {
+  font-size: 10px;
+}
+.app-demo-comment p {
+  margin-top: 3px;
+  font-size: 11px;
+}
+.app-demo-composer {
+  margin-top: auto;
+  padding: 0 12px 9px;
+}
+.app-demo-composer-box {
+  padding: 12px 10px 7px;
+  border: 1px solid hsl(240 6% 85%);
+  border-radius: 12px;
+  box-shadow: 0 1px 3px #00000005;
+}
+.app-demo-composer-box > p {
+  font-size: 12px;
+  line-height: 1.6;
+  margin: 0 0 19px;
+}
+.app-demo-composer-tools {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: var(--app-demo-muted);
+}
+.app-demo-model {
+  display: inline-flex;
+  gap: 4px;
+  align-items: center;
+  font-size: 10px;
+}
+.starcraft-demo .app-demo-send {
+  width: 29px;
+  height: 29px;
+  min-height: 29px;
+  margin-left: auto;
+  border-radius: 50%;
+  background: var(--app-demo-accent);
+  color: #fff;
+}
+.starcraft-demo .app-demo-send:hover,
+.starcraft-demo .app-demo-send[aria-pressed='true'] {
+  background: hsl(258 62% 47%);
+  color: #fff;
+}
+.app-demo-feedback {
+  display: block;
+  min-height: 29px;
+  padding-top: 7px;
+  color: var(--app-demo-muted);
+  font-size: 9px;
+  text-align: center;
+}
+.app-demo-prototype {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  background: hsl(240 12% 95%);
+}
+.app-demo-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 3px;
+  min-height: 38px;
+  padding: 3px 7px;
+  background: var(--app-demo-panel);
+  border-bottom: 1px solid var(--app-demo-border);
+}
+.app-demo-toolbar button {
+  font-size: 10px;
+}
+.app-demo-navigation {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--app-demo-muted);
+}
+.app-demo-navigation > svg:first-child {
+  color: hsl(158 64% 34%);
+}
+.app-demo-tool-group {
+  display: flex;
+  gap: 3px;
+  padding-left: 6px;
+  margin-left: 4px;
+  border-left: 1px solid var(--app-demo-border);
+}
+.app-demo-stage {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+}
+.app-demo-page-area {
+  flex: 1;
+  min-width: 0;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.starcraft-demo .app-demo-page {
+  border: 1px solid var(--app-demo-border);
+  border-radius: 4px;
+  min-height: 430px;
+  margin: 0 auto;
+  color: #314434;
+}
+.starcraft-demo .example-nav {
+  padding: 16px 22px;
+}
+.starcraft-demo .example-nav > span:first-child {
+  font-size: 22px;
+}
+.starcraft-demo .example-nav > span:last-child {
+  font-size: 8px;
+}
+.starcraft-demo .example-content {
+  padding: 36px 28px 0;
+}
+.starcraft-demo .example-eyebrow {
+  font-size: 8px;
+}
+.starcraft-demo .example-content h3 {
+  font-size: clamp(29px, 3.8vw, 48px);
+  line-height: 1.05;
+  letter-spacing: -2px;
+  margin: 20px 0 18px;
+}
+.starcraft-demo .example-content > p:not(.example-eyebrow) {
+  font-size: 11px;
+  line-height: 1.7;
+}
+.starcraft-demo .example-color-study {
+  height: 62px;
+  margin: 26px 0 0;
+}
+.starcraft-demo .example-bottom {
+  padding: 14px 0;
+  font-size: 9px;
+}
+.starcraft-demo .phone-preview .example-nav > span:last-child {
+  display: none;
+}
+.starcraft-demo .phone-preview .example-content {
+  padding-inline: 18px;
+}
+.starcraft-demo .phone-preview .example-content h3 {
+  font-size: 33px;
+}
+.app-demo-heading {
+  position: relative;
+}
+.app-demo-heading.is-commented,
+.app-demo-heading.is-editable {
+  outline: 2px solid var(--app-demo-accent);
+  outline-offset: 7px;
+  border-radius: 1px;
+}
+.app-demo-pin {
+  position: absolute;
+  top: -20px;
+  right: -18px;
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50% 50% 50% 2px;
+  background: var(--app-demo-accent);
+  color: #fff;
+  font:
+    600 11px/1 ui-sans-serif,
+    sans-serif;
+}
+.starcraft-demo .app-demo-text-action {
+  min-height: 26px;
+  margin-bottom: 7px;
+  padding: 4px 8px;
+  background: var(--app-demo-panel);
+  color: var(--app-demo-accent);
+  box-shadow: 0 2px 10px #00000010;
+  font-size: 10px;
+}
+.app-demo-tool-hint {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border-top: 1px solid var(--app-demo-border);
+  background: var(--app-demo-panel);
+  font-size: 10px;
+}
+.app-demo-tool-hint button {
+  margin-left: auto;
+  font-size: 10px;
+}
+.app-demo-pages {
+  width: 132px;
+  flex-shrink: 0;
+  border-left: 1px solid var(--app-demo-border);
+  background: var(--app-demo-panel);
+  padding: 15px 9px;
+}
+.app-demo-pages > strong {
+  display: block;
+  font-size: 11px;
+  margin: 0 5px 16px;
+}
+.app-demo-pages button {
+  justify-content: flex-start;
+  width: 100%;
+  padding: 6px;
+  font-size: 10px;
+  background: var(--app-demo-soft);
+  color: var(--app-demo-text);
+}
+.app-demo-canvas-label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-right: auto;
+  padding-left: 8px;
+  font-size: 10px;
+}
+.app-demo-stage.is-canvas .app-demo-page-area {
+  padding: 34px;
+}
+.app-demo-stage.is-canvas .app-demo-page {
+  width: 88%;
+  min-height: 390px;
+  box-shadow: 0 8px 25px #0000001f;
+  border-color: var(--app-demo-accent);
+}
+.app-demo-stage.is-canvas .example-content {
+  padding-top: 15px;
+}
+.app-demo-frame-label {
+  width: 88%;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 8px;
+  font-size: 11px;
+}
+.app-demo-frame-label small {
+  color: var(--app-demo-muted);
+}
+.app-demo-open-frame {
+  margin-top: 14px;
+}
+@media (max-width: 950px) {
+  .app-demo-titlebar {
+    gap: 9px;
+  }
+  .app-demo-home > span,
+  .app-demo-window-tools > span {
+    display: none;
+  }
+  .app-demo-workspace {
+    grid-template-columns: minmax(230px, 32%) minmax(0, 1fr);
+  }
+  .app-demo-navigation {
+    display: none;
+  }
+  .app-demo-page-area {
+    padding: 13px;
+  }
+  .app-demo-pages {
+    width: 100px;
+  }
+  .starcraft-demo .example-nav > span:last-child {
+    display: none;
+  }
+}
+@media (max-width: 680px) {
+  .app-demo-titlebar {
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 8px;
+  }
+  .app-demo-traffic {
+    display: none;
+  }
+  .app-demo-project {
+    font-size: 10px;
+    gap: 4px;
+  }
+  .app-demo-view-tabs {
+    margin-left: auto;
+  }
+  .app-demo-view-tabs button {
+    font-size: 10px;
+    padding-inline: 5px;
+  }
+  .app-demo-window-tools {
+    margin-left: 0;
+  }
+  .app-demo-workspace {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .app-demo-chat {
+    border-right: 0;
+    border-bottom: 5px solid var(--app-demo-border);
+  }
+  .app-demo-messages {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    padding: 14px;
+  }
+  .app-demo-messages p,
+  .app-demo-assistant li {
+    font-size: 11px;
+  }
+  .app-demo-assistant {
+    padding: 0;
+  }
+  .app-demo-assistant ul {
+    margin: 8px 0 0;
+  }
+  .app-demo-assistant > p:last-child {
+    display: none;
+  }
+  .app-demo-comment {
+    grid-column: 1 / -1;
+    margin: 0;
+  }
+  .app-demo-composer-box > p {
+    margin-bottom: 8px;
+  }
+  .app-demo-toolbar {
+    justify-content: center;
+    padding: 5px;
+  }
+  .app-demo-toolbar button {
+    font-size: 10px;
+    padding-inline: 5px;
+  }
+  .app-demo-tool-group {
+    margin-left: 2px;
+    padding-left: 4px;
+  }
+  .app-demo-stage {
+    min-height: 480px;
+  }
+  .app-demo-page-area {
+    padding: 15px 10px;
+  }
+  .app-demo-pages {
+    width: 94px;
+  }
+  .starcraft-demo .example-content {
+    padding-inline: 20px;
+  }
+  .starcraft-demo .example-content h3 {
+    font-size: 36px;
+  }
+  .app-demo-stage.is-canvas .app-demo-page-area {
+    padding: 24px 14px;
+  }
+  .app-demo-stage.is-canvas .app-demo-page {
+    width: 94%;
+  }
+  .app-demo-frame-label {
+    width: 94%;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .starcraft-demo .app-demo-page {
+    transition: none;
+  }
+}

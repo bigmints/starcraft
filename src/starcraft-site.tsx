@@ -1,5 +1,6 @@
 'use client';
 import Image from 'next/image';
+import { AppPreview } from './app-preview';
 import {
   ArrowUpRight,
   Download,
@@ -9,11 +10,6 @@ import {
   Pause,
   MousePointer2,
   MessageCircle,
-  Check,
-  Monitor,
-  Smartphone,
-  CornerDownRight,
-  MoveUpRight,
   Layers,
   PenTool,
   FolderOpen,
@@ -30,8 +26,6 @@ import { appDownloadUrl, content, contentText } from '@/src/content';
 
 export default function StarcraftSite() {
   const [paused, setPaused] = useState(false);
-  const [refined, setRefined] = useState(false);
-  const [mobile, setMobile] = useState(false);
   useEffect(() => {
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
     const sync = () => setPaused(reduce.matches);
@@ -214,125 +208,7 @@ export default function StarcraftSite() {
                   {content['workspace.description.end']}
                 </p>
               </div>
-              <div className="workspace-demo reveal">
-                <div className="window-bar">
-                  <div className="window-dots" aria-hidden="true">
-                    <i />
-                    <i />
-                    <i />
-                  </div>
-                  <p>{content['demo.projectName']}</p>
-                  <span className="demo-label">{content['demo.label']}</span>
-                </div>
-                <div className="demo-body">
-                  <div className="conversation">
-                    <div className="conversation-title">
-                      <Asterisk size={20} />
-                      {content['demo.conversationTitle']}
-                    </div>
-                    <div className="user-message">
-                      <p>{content['demo.prompt']}</p>
-                    </div>
-                    <div className="assistant-message">
-                      <Asterisk size={18} />
-                      <p>{content['demo.response']}</p>
-                    </div>
-                    <div className="example-reference">
-                      <Layers size={20} />
-                      <div>
-                        <p>{content['demo.projectName']}</p>
-                        {content['demo.referenceLabel']}
-                      </div>
-                      <Check size={16} />
-                    </div>
-                    <div className="demo-instruction">
-                      <CornerDownRight size={19} />
-                      <p>{content['demo.instruction']}</p>
-                    </div>
-                    <Button
-                      variant="outline"
-                      className="change-button"
-                      onClick={() => setRefined(!refined)}
-                      aria-pressed={refined}
-                    >
-                      {refined ? <Check /> : <MousePointer2 />}
-                      {refined ? content['demo.undo'] : content['demo.refine']}
-                      <ArrowUpRight />
-                    </Button>
-                    <output className="demo-feedback">
-                      {refined ? (
-                        <span>{content['demo.feedback.refined']}</span>
-                      ) : (
-                        content['demo.feedback.initial']
-                      )}
-                    </output>
-                  </div>
-                  <div className="preview-column">
-                    <div className="preview-toolbar">
-                      {content['demo.previewLabel']}
-                      <div>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          aria-label={contentText('demo.desktopLabel')}
-                          aria-pressed={!mobile}
-                          onClick={() => setMobile(false)}
-                        >
-                          <Monitor />
-                        </Button>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          aria-label={contentText('demo.phoneLabel')}
-                          aria-pressed={mobile}
-                          onClick={() => setMobile(true)}
-                        >
-                          <Smartphone />
-                        </Button>
-                      </div>
-                    </div>
-                    <div
-                      className={
-                        'example-site ' +
-                        (refined ? 'warmer ' : '') +
-                        (mobile ? 'phone-preview' : '')
-                      }
-                    >
-                      <div className="example-nav">
-                        {content['example.brand']}
-                        {content['example.tagline']}
-                      </div>
-                      <div className="example-content">
-                        <p className="example-eyebrow">
-                          {content['example.eyebrow']}
-                        </p>
-                        <h3>
-                          {content['example.heading.start']}
-                          <br />
-                          <em>{content['example.heading.end']}</em>
-                        </h3>
-                        <p>
-                          {content['example.description.start']}
-                          <br />
-                          {content['example.description.end']}
-                        </p>
-                        <div className="example-color-study" aria-hidden="true">
-                          <span />
-                          <span />
-                          <span />
-                          <span />
-                          <span />
-                          <span />
-                        </div>
-                        <div className="example-bottom">
-                          {content['example.footer']}
-                          <MoveUpRight size={26} />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <AppPreview />
               <div className="workspace-caption">
                 <p>{content['workspace.caption']}</p>
                 <p>
