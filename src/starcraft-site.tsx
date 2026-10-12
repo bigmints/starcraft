@@ -2,6 +2,7 @@
 import Image from 'next/image';
 import {
   ArrowUpRight,
+  Download,
   ArrowDown,
   Asterisk,
   Play,
@@ -25,6 +26,7 @@ import {
   AccordionContent,
 } from '@/components/ui/accordion';
 import { useEffect, useState } from 'react';
+import { appDownloadUrl, content } from '@/src/content';
 
 export default function StarcraftSite() {
   const [paused, setPaused] = useState(false);
@@ -69,9 +71,9 @@ export default function StarcraftSite() {
             <span>A few answers</span>
           </a>
         </nav>
-        <a className="pill header-cta" href="#workspace">
-          <span>Explore Starcraft</span>
-          <ArrowUpRight size={17} />
+        <a className="pill header-cta" href={appDownloadUrl}>
+          {content['actions.downloadApp']}
+          <Download size={17} />
         </a>
       </header>
       <main className="site-content">
@@ -92,9 +94,9 @@ export default function StarcraftSite() {
                 it, shape it, and make it yours — all in Starcraft.
               </p>
               <div className="hero-actions">
-                <a className="pill dark" href="#workspace">
-                  <span>See it in action</span>
-                  <ArrowUpRight size={18} />
+                <a className="pill dark" href={appDownloadUrl}>
+                  {content['actions.downloadApp']}
+                  <Download size={18} />
                 </a>
                 <a className="text-link" href="#how-it-works">
                   <span>Take a look around</span>
@@ -506,9 +508,9 @@ export default function StarcraftSite() {
             <br />
             <em>to make something.</em>
           </h2>
-          <a className="pill dark" href="#workspace">
-            <span>Explore the workspace</span>
-            <ArrowUpRight size={19} />
+          <a className="pill dark" href={appDownloadUrl}>
+            {content['actions.downloadApp']}
+            <Download size={19} />
           </a>
           <span className="closing-note">
             Start with a thought. See where it goes.
